@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   KUPI by Rafly — design tokens
+   Palette sampled from the logo (cream paper + dark roast ink) plus a
+   burnt-terracotta accent taken from the brand brief.
+------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f6efe0;
+  --color-paper-deep: #ece0c9;
+  --color-cream: #fbf6ea;
+  --color-ink: #24160e;
+  --color-bark: #4a2b18;
+  --color-roast: #6b4227;
+  --color-caramel: #c08a4e;
+  --color-latte: #dcbe97;
+  --color-clay: #9c3b27;
+  --color-clay-soft: #c2634a;
+
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: light;
+  --shell-x: clamp(1.25rem, 5vw, 5.5rem);
+}
+
+html {
+  /* Native scrolling stays in control — no scroll hijacking anywhere. */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  /* The 3D canvas is clipped to its section, but guard against any
+     transient overflow from wide editorial type. */
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: var(--color-clay);
+  color: var(--color-cream);
+}
+
+/* Visible, brand-coloured focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------
+   Utilities
+------------------------------------------------------------------ */
+
+/* Paper grain. Pure CSS/SVG — no image request, no layout cost. */
+@utility grain {
+  position: relative;
+}
+@utility grain-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+@utility shell {
+  padding-inline: var(--shell-x);
+  margin-inline: auto;
+  max-width: 90rem;
+}
+
+/* Editorial small-caps kicker used above every section heading. */
+@utility kicker {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+@utility rule-soft {
+  border-color: color-mix(in oklab, var(--color-bark) 16%, transparent);
+}
+
+/* Warm, tactile card surface. */
+@utility card-paper {
+  background-color: var(--color-cream);
+  border: 1px solid color-mix(in oklab, var(--color-bark) 14%, transparent);
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--color-bark) 6%, transparent),
+    0 18px 40px -28px color-mix(in oklab, var(--color-bark) 45%, transparent);
+}
+
+/* Reveal primitive: markup ships visible so no-JS and SSR are correct;
+   the client opts elements into the hidden start state before animating. */
+@utility reveal-ready {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+}
+
+.no-js-hidden {
+  display: none;
+}
+
+/* Scroll cue: a short bar sliding down a hairline track. */
+@keyframes cue {
+  0% { transform: translateY(-100%); }
+  55% { transform: translateY(300%); }
+  100% { transform: translateY(300%); }
+}
