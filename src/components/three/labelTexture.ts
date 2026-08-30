@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 /** Sampled from the real label artwork. */
 const CREAM = "#fff7dc";
-const INK = "#241a12";
+const INK = "#2a1608";
 
 /** Wrap texture proportions, matching the label's height on the bottle. */
 const WIDTH = 1240;

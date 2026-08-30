@@ -19,7 +19,7 @@ export const site = {
   country: "Indonesia",
   tagline: "Kopi susu gula aren, diseduh sebotol demi sebotol di dapur rumah.",
   description:
-    "KUPI by Rafly — es kopi susu gula aren small-batch dari Tangerang. Diseduh di rumah, pre-order tiap minggu, diantar segar ke tetangga.",
+    "KUPI by Rafly — es kupi gula aren small-batch dari Tangerang. Diseduh di rumah, pre-order tiap minggu, diantar segar ke tetangga.",
   url: "https://kupi-by-rafly.netlify.app",
 
   whatsapp: {
@@ -65,7 +65,8 @@ export function buildOrderLink(input: {
   day?: string;
   note?: string;
 }): string {
-  const lines = ["Halo Rafly, saya mau pesan KUPI 👋"];
+  // Voice rules: short lines, one idea each, no decorative emoji.
+  const lines = ["Halo Rafly, mau pesan."];
   if (input.name) lines.push(`Nama: ${input.name}`);
   if (input.item) lines.push(`Menu: ${input.item}`);
   if (input.qty) lines.push(`Jumlah: ${input.qty} botol`);

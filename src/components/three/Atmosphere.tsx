@@ -109,7 +109,7 @@ export function BeanField({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
       frustumCulled={false}
     >
       <meshStandardMaterial
-        color="#4e2d18"
+        color="#44250e"
         roughness={0.55}
         metalness={0.05}
         transparent
@@ -177,7 +177,7 @@ export function Motes({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
       </bufferGeometry>
       <pointsMaterial
         map={texture}
-        color="#d9b892"
+        color="#e9a63c"
         size={0.055}
         sizeAttenuation
         transparent

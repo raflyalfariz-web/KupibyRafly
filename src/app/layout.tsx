@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Work_Sans, Zilla_Slab } from "next/font/google";
 
 import "./globals.css";
 import { site } from "@/lib/site";
@@ -8,23 +8,26 @@ import { Preloader } from "@/components/Preloader";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+/* The design system's pairing. Zilla Slab for anything that speaks up —
+   headings, prices, labels — and Work Sans for everything that explains. */
+const zillaSlab = Zilla_Slab({
+  variable: "--font-zilla-slab",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  style: ["normal", "italic"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const workSans = Work_Sans({
+  variable: "--font-work-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.fullName} — Es Kupi Gula Aren dari ${site.city}`,
+    default: `${site.fullName} — es kupi gula aren dari ${site.city}`,
     template: `%s — ${site.fullName}`,
   },
   description: site.description,
@@ -40,20 +43,22 @@ export const metadata: Metadata = {
     locale: "id_ID",
     url: site.url,
     siteName: site.fullName,
-    title: `${site.fullName} — Es Kupi Gula Aren`,
+    title: `${site.fullName} — es kupi gula aren`,
     description: site.description,
-    images: [{ url: "/brand/kupi-bottle.jpg", width: 324, height: 900, alt: "Botol KUPI by Rafly" }],
+    images: [
+      { url: "/brand/kupi-bottle.jpg", width: 324, height: 900, alt: "Botol KUPI by Rafly" },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.fullName} — Es Kupi Gula Aren`,
+    title: `${site.fullName} — es kupi gula aren`,
     description: site.description,
   },
   alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6efe0",
+  themeColor: "#44250e",
   colorScheme: "light",
 };
 
@@ -61,15 +66,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="id" className={`${zillaSlab.variable} ${workSans.variable}`}>
       <body className="antialiased">
         <CapabilitiesProvider>
           <Preloader />
 
           <a
             href="#konten"
-            className="sr-only left-4 top-4 z-[110] rounded-full bg-clay px-5 py-3
-                       text-sm font-medium text-cream focus:not-sr-only focus:fixed"
+            className="sr-only left-4 top-4 z-[110] inline-flex min-h-12 items-center rounded-md bg-order px-5
+                       text-sm font-semibold text-white focus:not-sr-only focus:fixed"
           >
             Lompat ke konten
           </a>
@@ -78,9 +83,6 @@ export default function RootLayout({
           {children}
           <SiteFooter />
         </CapabilitiesProvider>
-
-        {/* Paper grain over the whole page. Decorative, never interactive. */}
-        <div className="grain-layer" aria-hidden="true" />
       </body>
     </html>
   );

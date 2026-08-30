@@ -1,27 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Menu as MenuIcon, X } from "lucide-react";
+
 import { nav, site } from "@/lib/site";
 import { useCapabilities } from "@/lib/capabilities";
-import { Wordmark } from "@/components/ui/LogoMark";
-import { ButtonLink, WhatsAppIcon } from "@/components/ui/Button";
+import { Logo } from "@/components/ui/ds";
+import { ButtonLink, OrderIcon } from "@/components/ui/Button";
 
+/**
+ * Brown band, per the design system's section rhythm:
+ * brown band → cream content → cream-100 menu → cream content → brown footer.
+ */
 export function SiteHeader() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const { reducedMotion, motionOverride, setMotionOverride, ready } =
-    useCapabilities();
+  const { reducedMotion, motionOverride, setMotionOverride, ready } = useCapabilities();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Close the mobile menu on Escape and return focus to the toggle.
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (event: KeyboardEvent) => {
@@ -35,32 +30,20 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   return (
-    <header
-      className={[
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-500 motion-reduce:transition-none",
-        scrolled || menuOpen
-          ? "border-b border-bark/10 bg-paper/85 backdrop-blur-md"
-          : "border-b border-transparent",
-      ].join(" ")}
-    >
-      <div className="shell flex h-16 items-center justify-between gap-4 sm:h-20">
-        <a
-          href="#top"
-          className="text-bark transition-opacity hover:opacity-70"
-          aria-label={`${site.fullName} — ke atas`}
-        >
-          <Wordmark />
+    <header className="sticky top-0 z-50 bg-[var(--surface-ink)] text-on-ink">
+      <div className="shell flex h-16 items-center justify-between gap-4">
+        <a href="#top" className="flex items-center" aria-label={`${site.fullName} — ke atas`}>
+          <Logo lockup="horizontal" on="dark" width={150} priority />
         </a>
 
-        <nav aria-label="Navigasi utama" className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Navigasi utama" className="hidden items-center gap-7 lg:flex">
           {nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="relative inline-flex items-center py-2 text-sm text-bark/75 transition-colors
-                         hover:text-bark after:absolute after:bottom-1 after:left-0 after:h-px after:w-0
-                         after:bg-clay after:transition-[width] after:duration-300 hover:after:w-full
-                         motion-reduce:after:transition-none"
+              className="inline-flex min-h-12 items-center text-[15px] text-on-ink/85
+                         transition-colors duration-[120ms] ease-standard hover:text-on-ink
+                         motion-reduce:transition-none"
             >
               {item.label}
             </a>
@@ -73,22 +56,20 @@ export function SiteHeader() {
               type="button"
               onClick={() => setMotionOverride(motionOverride === true ? null : true)}
               aria-pressed={reducedMotion}
-              className="hidden min-h-11 items-center rounded-full px-3 text-xs text-bark/70
-                         transition-colors hover:text-bark sm:inline-flex"
+              className="hidden min-h-12 items-center rounded-sm px-3 text-[13px] text-on-ink/75
+                         transition-colors hover:text-on-ink sm:inline-flex"
               title="Kurangi animasi di seluruh halaman"
             >
               {reducedMotion ? "Animasi: mati" : "Animasi: nyala"}
             </button>
           ) : null}
 
-          <ButtonLink
-            href={site.whatsapp.href}
-            external
-            className="hidden sm:inline-flex"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            Pesan
-          </ButtonLink>
+          <span className="hidden sm:block">
+            <ButtonLink href={site.whatsapp.href} external size="md" className="w-auto">
+              <OrderIcon size={18} aria-hidden="true" />
+              Pesan
+            </ButtonLink>
+          </span>
 
           <button
             ref={toggleRef}
@@ -96,49 +77,40 @@ export function SiteHeader() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="inline-flex size-11 items-center justify-center rounded-full text-bark lg:hidden"
+            className="inline-flex size-12 items-center justify-center rounded-sm text-on-ink lg:hidden"
           >
             <span className="sr-only">{menuOpen ? "Tutup menu" : "Buka menu"}</span>
-            <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" aria-hidden="true">
-              {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 8h16M4 16h16" />}
-            </svg>
+            {menuOpen ? <X size={22} aria-hidden="true" /> : <MenuIcon size={22} aria-hidden="true" />}
           </button>
         </div>
       </div>
 
       <div
         id="mobile-menu"
-        ref={panelRef}
         hidden={!menuOpen}
-        className="border-t border-bark/10 bg-paper/95 backdrop-blur-md lg:hidden"
+        className="border-t border-white/15 bg-[var(--surface-ink)] lg:hidden"
       >
-        <nav aria-label="Navigasi seluler" className="shell flex flex-col py-3">
+        <nav aria-label="Navigasi seluler" className="shell flex flex-col py-2">
           {nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="flex min-h-12 items-center border-b border-bark/8 text-base text-bark/85 last:border-0"
+              className="flex min-h-12 items-center border-b border-white/10 text-[16px] text-on-ink/90 last:border-0"
             >
               {item.label}
             </a>
           ))}
-          <div className="flex flex-wrap items-center gap-3 pt-4 pb-2">
-            <ButtonLink href={site.whatsapp.href} external>
-              <WhatsAppIcon className="h-4 w-4" />
-              Pesan lewat WhatsApp
-            </ButtonLink>
-            {ready ? (
-              <button
-                type="button"
-                onClick={() => setMotionOverride(motionOverride === true ? null : true)}
-                aria-pressed={reducedMotion}
-                className="min-h-11 rounded-full px-4 text-xs text-bark/70"
-              >
-                {reducedMotion ? "Animasi: mati" : "Animasi: nyala"}
-              </button>
-            ) : null}
-          </div>
+          {ready ? (
+            <button
+              type="button"
+              onClick={() => setMotionOverride(motionOverride === true ? null : true)}
+              aria-pressed={reducedMotion}
+              className="flex min-h-12 items-center text-[13px] text-on-ink/70"
+            >
+              {reducedMotion ? "Animasi: mati" : "Animasi: nyala"}
+            </button>
+          ) : null}
         </nav>
       </div>
     </header>

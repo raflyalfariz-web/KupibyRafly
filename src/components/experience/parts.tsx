@@ -1,30 +1,28 @@
 import { heroCopy, type Stage } from "@/data/story";
 import { site } from "@/lib/site";
-import { ArrowIcon, ButtonLink, WhatsAppIcon } from "@/components/ui/Button";
+import { ArrowIcon, ButtonLink, OrderIcon } from "@/components/ui/Button";
 
 /** Shared by the immersive and the static layouts so the copy never diverges. */
-export function HeroCopy({ compact = false }: { compact?: boolean }) {
+export function HeroCopy() {
   return (
-    <div className={compact ? "text-center md:text-left" : ""}>
-      <p className="kicker text-clay">{heroCopy.kicker}</p>
+    <div>
+      <p className="eyebrow text-amber-deep">{heroCopy.kicker}</p>
 
-      <h1 className="mt-5 font-display text-[clamp(2.75rem,8.5vw,6.5rem)] leading-[0.92] tracking-[-0.02em] text-bark">
+      <h1 className="display-xl mt-4 text-ink-strong md:text-[clamp(2.75rem,6vw,4.5rem)] md:leading-[1.02]">
         {heroCopy.title}
-        <span className="block italic text-clay">{heroCopy.titleAccent}</span>
+        <span className="block text-ink">{heroCopy.titleAccent}</span>
       </h1>
 
-      <p className="mt-6 max-w-[38ch] text-[0.975rem] leading-relaxed text-bark/75 sm:text-base">
-        {heroCopy.lede}
-      </p>
+      <p className="mt-5 max-w-[42ch] text-ink">{heroCopy.lede}</p>
 
-      <div className="mt-8 flex flex-wrap items-center gap-3">
+      <div className="mt-7 flex max-w-md flex-col gap-3 sm:flex-row">
         <ButtonLink href={site.whatsapp.href} external>
-          <WhatsAppIcon className="h-4 w-4" />
+          <OrderIcon size={22} aria-hidden="true" />
           {heroCopy.primaryCta}
         </ButtonLink>
-        <ButtonLink href="#menu" variant="outline">
+        <ButtonLink href="#menu" variant="secondary">
           {heroCopy.secondaryCta}
-          <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          <ArrowIcon size={20} aria-hidden="true" />
         </ButtonLink>
       </div>
     </div>
@@ -33,14 +31,11 @@ export function HeroCopy({ compact = false }: { compact?: boolean }) {
 
 export function ScrollCue() {
   return (
-    <div className="flex items-center gap-3 text-bark/70">
-      <span
-        aria-hidden="true"
-        className="relative block h-9 w-px overflow-hidden bg-bark/20"
-      >
-        <span className="absolute inset-x-0 top-0 h-3 animate-[cue_2.2s_ease-in-out_infinite] bg-clay motion-reduce:animate-none" />
+    <div className="flex items-center gap-3 text-ink">
+      <span aria-hidden="true" className="relative block h-9 w-0.5 overflow-hidden bg-line">
+        <span className="absolute inset-x-0 top-0 h-3 animate-[cue_2.2s_ease-in-out_infinite] bg-amber motion-reduce:animate-none" />
       </span>
-      <span className="kicker">{heroCopy.scrollCue}</span>
+      <span className="eyebrow">{heroCopy.scrollCue}</span>
     </div>
   );
 }
@@ -48,28 +43,24 @@ export function ScrollCue() {
 export function StageCopy({ stage }: { stage: Stage }) {
   return (
     <>
-      <p className="kicker flex items-center gap-3 text-clay">
-        <span className="font-display text-sm not-italic tabular-nums opacity-60">
-          {stage.index}
-        </span>
-        <span aria-hidden="true" className="h-px w-8 bg-clay/40" />
+      <p className="eyebrow flex items-center gap-3 text-amber-deep">
+        <span className="font-display tabular-nums">{stage.index}</span>
+        <span aria-hidden="true" className="h-px w-8 bg-amber/50" />
         {stage.kicker}
       </p>
 
-      <h2 className="mt-5 max-w-[16ch] font-display text-[clamp(1.85rem,4.2vw,3.25rem)] leading-[1.04] tracking-[-0.015em] text-bark">
+      <h2 className="display-l mt-4 max-w-[16ch] text-ink-strong md:text-[clamp(2rem,3.6vw,2.75rem)] md:leading-[1.08]">
         {stage.title}
       </h2>
 
-      <p className="mt-5 max-w-[46ch] text-[0.95rem] leading-relaxed text-bark/75">
-        {stage.body}
-      </p>
+      <p className="mt-4 max-w-[46ch] text-ink">{stage.body}</p>
 
       {stage.facts ? (
-        <dl className="mt-8 grid max-w-md grid-cols-3 gap-x-4 gap-y-1 border-t border-bark/15 pt-4">
+        <dl className="mt-7 grid max-w-md grid-cols-3 gap-x-4 gap-y-1 border-t-2 border-line pt-4">
           {stage.facts.map((fact) => (
             <div key={fact.label}>
-              <dt className="kicker text-bark/70">{fact.label}</dt>
-              <dd className="mt-1.5 font-display text-sm text-bark sm:text-base">
+              <dt className="eyebrow text-ink">{fact.label}</dt>
+              <dd className="mt-1.5 font-display text-[16px] font-medium tabular-nums text-ink sm:text-[20px]">
                 {fact.value}
               </dd>
             </div>

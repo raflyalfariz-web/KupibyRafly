@@ -1,16 +1,18 @@
 "use client";
 
 import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { Info } from "lucide-react";
 
-import { pickupDays, products } from "@/data/products";
+import { orderOptions, pickupDays } from "@/data/products";
 import { buildOrderLink, site } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
-import { ButtonLink, WhatsAppIcon } from "@/components/ui/Button";
+import { ButtonLink, OrderIcon } from "@/components/ui/Button";
+import { NoteLine, SectionHeading } from "@/components/ui/ds";
 
 /**
  * The order form has no backend and does not pretend to: it composes a
- * pre-filled WhatsApp message and hands the visitor off to WhatsApp, which is
- * how KUPI actually takes orders. Nothing is stored or sent anywhere else.
+ * pre-filled WhatsApp message and hands you off to WhatsApp, which is how KUPI
+ * actually takes orders. Nothing is stored or sent anywhere else.
  */
 export function OrderCta() {
   const nameId = useId();
@@ -19,7 +21,7 @@ export function OrderCta() {
   const dayId = useId();
   const noteId = useId();
 
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,64 +35,54 @@ export function OrderCta() {
       note: String(data.get("note") ?? "").trim(),
     });
 
-    setStatus("Membuka WhatsApp dengan pesanan kamu…");
+    setStatus("Membuka WhatsApp dengan pesanan kamu.");
     window.open(href, "_blank", "noopener,noreferrer");
   }
 
   return (
-    <section
-      id="pesan"
-      aria-labelledby="pesan-heading"
-      className="relative border-t border-bark/10 py-24 md:py-32"
-    >
-      <div className="shell grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-20">
+    <section id="pesan" aria-labelledby="pesan-heading" className="py-16 md:py-24">
+      <div className="shell grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-16">
         <Reveal>
-          <p className="kicker text-clay">Pesan</p>
-          <h2
+          <SectionHeading
             id="pesan-heading"
-            className="mt-4 max-w-[13ch] font-display text-[clamp(2.15rem,5vw,4rem)] leading-[0.98] tracking-[-0.02em] text-bark"
+            eyebrow="Pesan"
+            sub="Pesanan ditutup Kamis malam, diseduh Jumat dan Sabtu pagi."
           >
             Pre-order minggu ini masih buka
-          </h2>
-          <p className="mt-6 max-w-[42ch] leading-relaxed text-bark/75">
-            Isi bentuk di samping dan kami buatkan pesannya untuk kamu — atau
-            langsung chat kalau lebih gampang. Pesanan ditutup Kamis malam,
-            diseduh Jumat dan Sabtu pagi.
+          </SectionHeading>
+
+          <p className="mt-6 max-w-[42ch] text-ink">
+            Isi formnya dan aku buatkan pesannya untuk kamu. Atau langsung chat kalau
+            lebih gampang.
           </p>
 
-          <div className="mt-8">
-            <ButtonLink href={site.whatsapp.href} external variant="outline">
-              <WhatsAppIcon className="h-4 w-4" />
+          <div className="mt-6 max-w-xs">
+            <ButtonLink href={site.whatsapp.href} external variant="secondary" size="md">
+              <OrderIcon size={18} aria-hidden="true" />
               {site.whatsapp.display}
             </ButtonLink>
           </div>
 
-          <dl className="mt-12 grid max-w-md grid-cols-2 gap-y-6 border-t border-bark/15 pt-8">
-            <div>
-              <dt className="kicker text-bark/70">Tutup pesanan</dt>
-              <dd className="mt-2 font-display text-lg text-bark">Kamis, 21.00</dd>
-            </div>
-            <div>
-              <dt className="kicker text-bark/70">Hari seduh</dt>
-              <dd className="mt-2 font-display text-lg text-bark">Jumat &amp; Sabtu</dd>
-            </div>
-            <div>
-              <dt className="kicker text-bark/70">Area antar</dt>
-              <dd className="mt-2 font-display text-lg text-bark">{site.city}</dd>
-            </div>
-            <div>
-              <dt className="kicker text-bark/70">Minimum</dt>
-              <dd className="mt-2 font-display text-lg text-bark">1 botol</dd>
-            </div>
+          <dl className="mt-10 grid max-w-md grid-cols-2 gap-y-5 border-t-2 border-line pt-7">
+            {[
+              ["Tutup pesanan", "Kamis, 21.00"],
+              ["Hari seduh", "Jumat & Sabtu"],
+              ["Area antar", site.city],
+              ["Minimum", "1 botol"],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <dt className="eyebrow text-muted">{label}</dt>
+                <dd className="mt-1.5 font-display text-[20px] font-medium tabular-nums text-ink">
+                  {value}
+                </dd>
+              </div>
+            ))}
           </dl>
         </Reveal>
 
         <Reveal>
-          <form
-            onSubmit={handleSubmit}
-            className="card-paper rounded-2xl p-6 sm:p-8"
-          >
-            <div className="grid gap-5">
+          <form onSubmit={handleSubmit} className="card p-5 sm:p-6">
+            <div className="grid gap-4">
               <Field label="Nama" htmlFor={nameId}>
                 <input
                   id={nameId}
@@ -103,18 +95,18 @@ export function OrderCta() {
                 />
               </Field>
 
-              <div className="grid gap-5 sm:grid-cols-[1fr_7rem]">
+              <div className="grid gap-4 sm:grid-cols-[1fr_7rem]">
                 <Field label="Menu" htmlFor={itemId}>
                   <select
                     id={itemId}
                     name="item"
                     required
-                    defaultValue={products[0].name}
+                    defaultValue={orderOptions[0].value}
                     className={inputClass}
                   >
-                    {products.map((product) => (
-                      <option key={product.id} value={product.name}>
-                        {product.name} — {product.volume}
+                    {orderOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
                       </option>
                     ))}
                   </select>
@@ -157,26 +149,30 @@ export function OrderCta() {
                   id={noteId}
                   name="note"
                   rows={3}
-                  placeholder="Alamat, less sugar, atau titip pesan lain"
-                  className={`${inputClass} resize-y`}
+                  placeholder="Alamat, kurangi gula, atau titip pesan lain"
+                  className={`${inputClass} resize-y py-3`}
                 />
               </Field>
             </div>
 
             <button
               type="submit"
-              className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full
-                         bg-clay px-6 text-sm font-medium text-cream transition-colors duration-300
-                         hover:bg-[#87321f]"
+              className="mt-6 inline-flex min-h-[var(--tap-cta)] w-full items-center justify-center
+                         gap-2 rounded-md border-2 border-order bg-order px-5 text-[18px]
+                         font-semibold text-white shadow-[var(--shadow-raise)]
+                         transition-[background-color,transform,box-shadow] duration-[120ms] ease-standard
+                         active:translate-y-0.5 active:border-order-press active:bg-order-press
+                         active:shadow-[var(--shadow-press)] motion-reduce:transition-none
+                         motion-reduce:active:translate-y-0"
             >
-              <WhatsAppIcon className="h-4 w-4" />
+              <OrderIcon size={22} aria-hidden="true" />
               Kirim lewat WhatsApp
             </button>
 
-            <p className="mt-4 text-center text-xs leading-relaxed text-bark/70">
-              Bentuk ini tidak menyimpan data apa pun — isinya langsung jadi
-              pesan WhatsApp yang bisa kamu periksa sebelum dikirim.
-            </p>
+            <NoteLine icon={<Info size={16} />} className="mt-4">
+              Form ini tidak menyimpan apa pun. Isinya langsung jadi pesan WhatsApp yang
+              bisa kamu periksa dulu sebelum dikirim.
+            </NoteLine>
 
             <p role="status" aria-live="polite" className="sr-only">
               {status}
@@ -189,9 +185,9 @@ export function OrderCta() {
 }
 
 const inputClass =
-  "min-h-11 w-full rounded-lg border border-bark/20 bg-paper/60 px-3.5 py-2.5 text-sm text-bark " +
-  "placeholder:text-bark/70 transition-colors focus:border-clay focus:outline-none " +
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay";
+  "min-h-[var(--tap-min)] w-full rounded-md border-2 border-line bg-page px-3 text-[16px] text-ink " +
+  "placeholder:text-muted/80 transition-colors duration-[120ms] focus:border-ink focus:outline-none " +
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 function Field({
   label,
@@ -206,16 +202,9 @@ function Field({
 }) {
   return (
     <div>
-      <label
-        htmlFor={htmlFor}
-        className="mb-2 flex items-baseline gap-2 text-xs font-medium tracking-wide text-bark/70"
-      >
+      <label htmlFor={htmlFor} className="eyebrow mb-2 flex items-baseline gap-2 text-muted">
         {label}
-        {optional ? (
-          <span className="text-[0.6875rem] font-normal text-bark/70">
-            opsional
-          </span>
-        ) : null}
+        {optional ? <span className="font-normal normal-case tracking-normal">opsional</span> : null}
       </label>
       {children}
     </div>

@@ -1,123 +1,243 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------
-   KUPI by Rafly — design tokens
-   Palette sampled from the logo (cream paper + dark roast ink) plus a
-   burnt-terracotta accent taken from the brand brief.
------------------------------------------------------------------- */
-@theme {
-  --color-paper: #f6efe0;
-  --color-paper-deep: #ece0c9;
-  --color-cream: #fbf6ea;
-  --color-ink: #24160e;
-  --color-bark: #4a2b18;
-  --color-roast: #6b4227;
-  --color-caramel: #c08a4e;
-  --color-latte: #dcbe97;
-  --color-clay: #9c3b27;
-  --color-clay-soft: #c2634a;
-
-  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
+/* ==================================================================
+   KUPI by Rafly — design system tokens
+   Ported verbatim from project/tokens/*.css (the Claude Design bundle).
+   That bundle is the source of truth; do not edit values here without
+   changing them there too.
+================================================================== */
 :root {
+  /* ---- Brand brown (locked): Kopi Tubruk ---- */
+  --brown-900: #2a1608;
+  --brown-800: #351d0b;
+  --brown-700: #44250e; /* LOCKED primary */
+  --brown-500: #6b4426;
+  --brown-300: #9a7550;
+
+  /* ---- Paper / cream surfaces ---- */
+  --cream-50: #fdf9f0;
+  --cream-100: #fbf1df; /* the logo's own background */
+  --cream-200: #f4e7d0;
+
+  /* ---- Warm neutral steps (there is no grey in this system) ---- */
+  --neutral-100: #ede2ce;
+  --neutral-200: #dccdb2;
+  --neutral-300: #b9a88c;
+  --neutral-400: #8a7a64;
+  --neutral-500: #574c3e;
+
+  /* ---- Accent: gula aren amber ---- */
+  --amber-600: #9c5b10;
+  --amber-500: #c1741a;
+  --amber-300: #e9a63c;
+  --amber-100: #f8e3be;
+
+  /* ---- Semantic hues ---- */
+  --green-600: #256b45;
+  --green-100: #dceee2;
+  --terracotta-600: #9c4416;
+  --terracotta-100: #f8e0d2;
+
+  /* ---- Semantic aliases ---- */
+  --surface-page: var(--cream-50);
+  --surface-card: #fffdf8;
+  --surface-sunken: var(--cream-200);
+  --surface-ink: var(--brown-700);
+  --surface-accent: var(--amber-100);
+
+  --text-strong: var(--brown-900);
+  --text-body: var(--brown-700);
+  --text-muted: #7a6a55;
+  --text-on-ink: var(--cream-100);
+
+  --border-default: #e3d3b6;
+  --border-subtle: #f0e4cd;
+
+  /* Order-lane green, deliberately darker than WhatsApp's own #25D366 so an
+     18px white label still clears 4.5:1 in direct sun. */
+  --action-primary: #0e7a3c;
+  --action-primary-press: #0b5f30;
+  --action-secondary: var(--brown-700);
+  --accent: var(--amber-500);
+  --accent-press: var(--amber-600);
+
+  --state-success: var(--green-600);
+  --state-success-bg: var(--green-100);
+  --state-warning: var(--terracotta-600);
+  --state-warning-bg: var(--terracotta-100);
+
+  /* ---- Spacing (4px base) ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px; --sp-14: 56px;
+  --gutter-mobile: 20px;
+  --tap-min: 48px;
+  --tap-cta: 56px;
+
+  /* ---- Effects ---- */
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 18px; --radius-pill: 999px;
+  --border-hairline: 1px;
+  --border-solid: 2px; /* the brand's default line weight */
+  --shadow-card: 0 1px 0 rgba(42, 22, 8, 0.06), 0 6px 14px -8px rgba(42, 22, 8, 0.18);
+  --shadow-press: 0 0 0 rgba(42, 22, 8, 0);
+  --shadow-raise: 0 2px 0 rgba(42, 22, 8, 0.18);
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+
   color-scheme: light;
-  --shell-x: clamp(1.25rem, 5vw, 5.5rem);
+  /* Wider than the bundle's 390px because this surface is a full website,
+     not the QR landing page. The type scale below stays mobile-first. */
+  --shell-x: clamp(var(--gutter-mobile), 5vw, 5.5rem);
 }
 
+/* ------------------------------------------------------------------
+   Tailwind theme — utilities mapped onto the tokens above.
+------------------------------------------------------------------ */
+@theme inline {
+  --color-page: var(--surface-page);
+  --color-card: var(--surface-card);
+  --color-sunken: var(--surface-sunken);
+  --color-cream: var(--cream-100);
+
+  --color-ink: var(--brown-700);
+  --color-ink-strong: var(--brown-900);
+  --color-ink-soft: var(--brown-500);
+  --color-muted: var(--text-muted);
+  --color-on-ink: var(--cream-100);
+
+  --color-amber: var(--amber-500);
+  --color-amber-deep: var(--amber-600);
+  --color-amber-soft: var(--amber-100);
+
+  --color-order: var(--action-primary);
+  --color-order-press: var(--action-primary-press);
+
+  --color-line: var(--border-default);
+  --color-line-subtle: var(--border-subtle);
+
+  --color-success: var(--state-success);
+  --color-success-bg: var(--state-success-bg);
+  --color-warning: var(--state-warning);
+  --color-warning-bg: var(--state-warning-bg);
+
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-300: var(--neutral-300);
+
+  --font-display: var(--font-zilla-slab), Georgia, serif;
+  --font-text: var(--font-work-sans), "Helvetica Neue", Arial, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------ */
 html {
-  /* Native scrolling stays in control — no scroll hijacking anywhere. */
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 }
 
 body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-synthesis-weight: none;
+  background-color: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-work-sans), "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px; /* body never below 16px */
+  line-height: 25px;
   -webkit-font-smoothing: antialiased;
-  /* The 3D canvas is clipped to its section, but guard against any
-     transient overflow from wide editorial type. */
   overflow-x: clip;
 }
 
-::selection {
-  background-color: var(--color-clay);
-  color: var(--color-cream);
+/* No justified text, no hyphenation; pretty wrapping everywhere. */
+p, h1, h2, h3, h4, li, dd, dt, figcaption {
+  text-wrap: pretty;
 }
 
-/* Visible, brand-coloured focus ring for keyboard users. */
+::selection {
+  background-color: var(--brown-700);
+  color: var(--cream-100);
+}
+
+/* Focus is the browser default outline, kept — just tinted to the brand. */
 :focus-visible {
-  outline: 2px solid var(--color-clay);
+  outline: 2px solid var(--brown-700);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 /* ------------------------------------------------------------------
    Utilities
 ------------------------------------------------------------------ */
-
-/* Paper grain. Pure CSS/SVG — no image request, no layout cost. */
-@utility grain {
-  position: relative;
-}
-@utility grain-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.42;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-}
-
 @utility shell {
   padding-inline: var(--shell-x);
   margin-inline: auto;
-  max-width: 90rem;
+  max-width: 78rem;
 }
 
-/* Editorial small-caps kicker used above every section heading. */
-@utility kicker {
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.24em;
+/* 12px uppercase label — the only place ALL CAPS is allowed on screen. */
+@utility eyebrow {
+  font-family: var(--font-text);
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-@utility rule-soft {
-  border-color: color-mix(in oklab, var(--color-bark) 16%, transparent);
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 42px;
+  letter-spacing: -0.01em;
 }
 
-/* Warm, tactile card surface. */
-@utility card-paper {
-  background-color: var(--color-cream);
-  border: 1px solid color-mix(in oklab, var(--color-bark) 14%, transparent);
-  box-shadow:
-    0 1px 2px color-mix(in oklab, var(--color-bark) 6%, transparent),
-    0 18px 40px -28px color-mix(in oklab, var(--color-bark) 45%, transparent);
+@utility display-l {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 36px;
+  letter-spacing: -0.01em;
 }
 
-/* Reveal primitive: markup ships visible so no-JS and SSR are correct;
-   the client opts elements into the hidden start state before animating. */
-@utility reveal-ready {
-  opacity: 0;
-  transform: translate3d(0, 1.75rem, 0);
+@utility heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  letter-spacing: -0.01em;
 }
 
-.no-js-hidden {
-  display: none;
+@utility price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 26px;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cards: structure from borders first, shadow second. */
+@utility card {
+  background-color: var(--surface-card);
+  border: var(--border-solid) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* The one permitted gradient: the fade under the sticky order CTA. */
+@utility cta-fade {
+  background: linear-gradient(
+    to top,
+    var(--cream-50) 62%,
+    rgba(253, 249, 240, 0)
+  );
 }
 
 /* Scroll cue: a short bar sliding down a hairline track. */

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { nav, site } from "@/lib/site";
-import { LogoMark } from "@/components/ui/LogoMark";
+import { ChevronRule, Logo } from "@/components/ui/ds";
 
 const legal = [
   { label: "Privasi", href: "/privasi" },
@@ -13,29 +13,29 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-bark/10 bg-cream">
-      <div className="shell py-16 md:py-20">
-        <div className="grid gap-12 md:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] md:gap-8">
+    <footer className="bg-[var(--surface-ink)] text-on-ink">
+      <div className="shell py-14 md:py-16">
+        <ChevronRule on="dark" className="mb-12" />
+
+        <div className="grid gap-10 md:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] md:gap-8">
           <div>
-            <LogoMark className="h-7 w-auto text-bark" title="KUPI by Rafly" />
-            <p className="mt-5 max-w-[32ch] text-sm leading-relaxed text-bark/70">
-              {site.tagline}
-            </p>
-            <p className="mt-4 text-sm text-bark/70">
+            <Logo lockup="stacked" on="dark" width={104} />
+            <p className="mt-5 max-w-[32ch] text-[15px] text-on-ink/80">{site.tagline}</p>
+            <p className="mt-4 text-[15px] text-on-ink/70">
               {site.region}, {site.country}
             </p>
           </div>
 
           <nav aria-labelledby="footer-nav">
-            <h2 id="footer-nav" className="kicker text-bark/70">
+            <h2 id="footer-nav" className="eyebrow text-amber-soft">
               Jelajah
             </h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-2">
               {nav.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className="inline-block py-1 text-sm text-bark/75 transition-colors hover:text-clay"
+                    className="inline-flex min-h-12 items-center text-[15px] text-on-ink/85 transition-colors hover:text-on-ink"
                   >
                     {item.label}
                   </a>
@@ -45,14 +45,14 @@ export function SiteFooter() {
           </nav>
 
           <div>
-            <h2 className="kicker text-bark/70">Kontak</h2>
-            <ul className="mt-5 space-y-3 text-sm">
+            <h2 className="eyebrow text-amber-soft">Kontak</h2>
+            <ul className="mt-2 text-[15px]">
               <li>
                 <a
                   href={site.whatsapp.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block py-1 text-bark/75 transition-colors hover:text-clay"
+                  className="inline-flex min-h-12 items-center tabular-nums text-on-ink/85 transition-colors hover:text-on-ink"
                 >
                   {site.whatsapp.display}
                 </a>
@@ -61,29 +61,27 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={`mailto:${site.contact.email}`}
-                    className="inline-block py-1 text-bark/75 transition-colors hover:text-clay"
+                    className="inline-flex min-h-12 items-center text-on-ink/85 transition-colors hover:text-on-ink"
                   >
                     {site.contact.email}
                   </a>
                 </li>
               ) : null}
-              <li className="max-w-[26ch] text-bark/70">
-                {site.contact.pickupNote}
-              </li>
+              <li className="max-w-[26ch] pt-1 text-on-ink/70">{site.contact.pickupNote}</li>
             </ul>
           </div>
 
           <div>
-            <h2 className="kicker text-bark/70">Ikuti</h2>
+            <h2 className="eyebrow text-amber-soft">Ikuti</h2>
             {socials.length > 0 ? (
-              <ul className="mt-5 space-y-3 text-sm">
+              <ul className="mt-2 text-[15px]">
                 {socials.map((social) => (
                   <li key={social.label}>
                     <a
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block py-1 text-bark/75 transition-colors hover:text-clay"
+                      className="inline-flex min-h-12 items-center text-on-ink/85 transition-colors hover:text-on-ink"
                     >
                       {social.label}
                     </a>
@@ -94,17 +92,14 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-bark/10 pt-8 text-xs text-bark/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/15 pt-6 text-[13px] text-on-ink/70 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.fullName}. Diseduh di {site.city}.
           </p>
           <ul className="flex gap-6">
             {legal.map((item) => (
               <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="inline-block py-1 transition-colors hover:text-clay"
-                >
+                <Link href={item.href} className="inline-flex min-h-12 items-center transition-colors hover:text-on-ink">
                   {item.label}
                 </Link>
               </li>

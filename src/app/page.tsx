@@ -3,6 +3,7 @@ import { BrandStory } from "@/components/BrandStory";
 import { Menu } from "@/components/Menu";
 import { Features } from "@/components/Features";
 import { OrderCta } from "@/components/OrderCta";
+import { StickyOrderCta } from "@/components/StickyOrderCta";
 import { products } from "@/data/products";
 import { site } from "@/lib/site";
 
@@ -17,6 +18,7 @@ export default function Home() {
         <Features />
         <OrderCta />
       </main>
+      <StickyOrderCta />
       <StructuredData />
     </>
   );
@@ -43,17 +45,19 @@ function StructuredData() {
       "@type": "Menu",
       hasMenuSection: {
         "@type": "MenuSection",
-        name: "Es Kupi",
-        hasMenuItem: products.map((product) => ({
-          "@type": "MenuItem",
-          name: product.name,
-          description: product.blurb,
-          offers: {
-            "@type": "Offer",
-            price: product.price,
-            priceCurrency: "IDR",
-          },
-        })),
+        name: "Es kupi",
+        hasMenuItem: products.flatMap((product) =>
+          product.sizes.map((size) => ({
+            "@type": "MenuItem",
+            name: `${product.name} ${size.size}`,
+            description: product.blurb,
+            offers: {
+              "@type": "Offer",
+              price: size.price,
+              priceCurrency: "IDR",
+            },
+          })),
+        ),
       },
     },
   };

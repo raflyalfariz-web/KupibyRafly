@@ -89,7 +89,7 @@ export default function SceneCanvas({
             blur={2.8}
             far={3.2}
             resolution={256}
-            color="#4a2b18"
+            color="#44250e"
           />
         ) : null}
       </Suspense>
@@ -181,7 +181,7 @@ function CameraRig({ refs, compact }: { refs: SceneRefs; compact: boolean }) {
  */
 function Lighting({ refs, full }: { refs: SceneRefs; full: boolean }) {
   const rim = useRef<THREE.PointLight>(null);
-  const warm = useMemo(() => new THREE.Color("#c2634a"), []);
+  const warm = useMemo(() => new THREE.Color("#c1741a"), []);
   const cool = useMemo(() => new THREE.Color("#7fa8bd"), []);
 
   useFrame((_, delta) => {
@@ -208,7 +208,7 @@ function Lighting({ refs, full }: { refs: SceneRefs; full: boolean }) {
         // Rendered once from these lightformers — a studio reflection for the
         // glass with no HDR file to download.
         <Environment resolution={256} frames={1}>
-          <color attach="background" args={["#2a1d14"]} />
+          <color attach="background" args={["#2a1608"]} />
           <Lightformer
             form="rect"
             intensity={5}
@@ -229,7 +229,7 @@ function Lighting({ refs, full }: { refs: SceneRefs; full: boolean }) {
             intensity={2}
             position={[0, -3, 2]}
             scale={[5, 5, 1]}
-            color="#c2634a"
+            color="#c1741a"
           />
         </Environment>
       ) : null}

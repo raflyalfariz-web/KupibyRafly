@@ -142,7 +142,7 @@ function ImmersiveExperience({
           <div className="shell w-full">
             <div className="md:max-w-[46%]">
               <PanelSurface>
-                <HeroCopy compact />
+                <HeroCopy />
               </PanelSurface>
             </div>
             <div className="mt-10 hidden md:block">
@@ -205,22 +205,24 @@ function Panel({
 function PanelSurface({ children }: { children: ReactNode }) {
   return (
     <div
-      className="rounded-2xl bg-paper/78 p-6 backdrop-blur-[3px] ring-1 ring-bark/8
-                 md:rounded-none md:bg-transparent md:p-0 md:backdrop-blur-none md:ring-0"
+      className="rounded-lg border-2 border-line bg-page/92 p-5
+                 md:rounded-none md:border-0 md:bg-transparent md:p-0"
     >
       {children}
     </div>
   );
 }
 
-/** Soft warm light pooled behind the bottle. */
+/**
+ * Flat page cream behind the bottle.
+ *
+ * Not the sunken step: the system allows at most two background colours on a
+ * screen (cream and brown), and its pair board is written against kertas —
+ * amber-600 eyebrows only reach 4.39:1 on cream-200 but 5.10:1 on cream-50.
+ * The one permitted gradient is the sticky-CTA fade, so this is a solid fill.
+ */
 function BackdropWash() {
-  return (
-    <div
-      aria-hidden="true"
-      className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_42%,rgba(220,190,151,0.5),transparent_70%)]"
-    />
-  );
+  return <div aria-hidden="true" className="absolute inset-0 bg-page" />;
 }
 
 /** Shown for the moment between mounting and the 3D chunk arriving. */
@@ -241,7 +243,7 @@ function StaticExperience() {
     <section id="cerita" aria-label="Cerita KUPI" className="relative">
       <div className="shell grid min-h-[86svh] items-center gap-12 py-24 md:grid-cols-2 md:gap-16 md:py-28">
         <div className="order-2 md:order-1">
-          <HeroCopy compact />
+          <HeroCopy />
         </div>
         <div className="order-1 md:order-2">
           <StaticProduct />

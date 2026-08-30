@@ -18,8 +18,8 @@ import type { SceneRefs } from "./types";
 /** Colours of the three components, and the colour they become once stirred. */
 const BLEND = new THREE.Color("#c1915f");
 const LAYERS = [
-  { id: "aren", fraction: 0.25, color: new THREE.Color("#6b3a15") },
-  { id: "espresso", fraction: 0.3, color: new THREE.Color("#3a2114") },
+  { id: "aren", fraction: 0.25, color: new THREE.Color("#9c5b10") },
+  { id: "espresso", fraction: 0.3, color: new THREE.Color("#2a1608") },
   { id: "milk", fraction: 0.45, color: new THREE.Color("#f0e2ca") },
 ] as const;
 

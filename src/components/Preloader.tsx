@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useCapabilities } from "@/lib/capabilities";
-import { LogoMark } from "@/components/ui/LogoMark";
+import { Logo } from "@/components/ui/ds";
 import { onSceneReady } from "@/lib/sceneReady";
 
 /**
@@ -76,18 +76,18 @@ export function Preloader() {
       id="kupi-preloader"
       aria-hidden={hidden ? true : undefined}
       className={[
-        "fixed inset-0 z-[100] flex flex-col items-center justify-center gap-7 bg-paper",
-        "transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+        "fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-page",
+        "transition-opacity duration-[180ms] ease-standard motion-reduce:transition-none",
         hidden ? "pointer-events-none opacity-0" : "opacity-100",
       ].join(" ")}
       style={hidden ? { visibility: "hidden" } : undefined}
     >
-      <LogoMark className="h-9 w-auto text-bark" />
+      <Logo lockup="mark" width={56} priority />
 
       <div className="flex flex-col items-center gap-3">
-        <p className="kicker text-bark/70">Menyeduh</p>
+        <p className="eyebrow text-muted">Menyeduh</p>
         <div
-          className="h-px w-40 overflow-hidden bg-bark/15 sm:w-56"
+          className="h-0.5 w-40 overflow-hidden rounded-sm bg-line sm:w-56"
           role="progressbar"
           aria-valuenow={progress}
           aria-valuemin={0}
@@ -95,11 +95,11 @@ export function Preloader() {
           aria-label="Memuat halaman"
         >
           <div
-            className="h-full bg-clay transition-[width] duration-500 ease-out motion-reduce:transition-none"
+            className="h-full bg-amber transition-[width] duration-[180ms] ease-standard motion-reduce:transition-none"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="font-display text-sm italic text-bark/70">
+        <p className="text-[13px] leading-[18px] text-muted">
           {complete ? "Siap." : "Sebentar ya…"}
         </p>
       </div>

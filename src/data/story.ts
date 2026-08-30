@@ -17,8 +17,8 @@ export type Stage = {
 
 export const heroCopy = {
   kicker: "Small-batch · Tangerang",
-  title: "Es Kupi",
-  titleAccent: "Gula Aren",
+  title: "Es kupi",
+  titleAccent: "gula aren",
   lede:
     "Kopi susu gula aren yang diseduh sebotol demi sebotol di dapur rumah. Pre-order tiap minggu, dingin, dan sampai ke tangan tetangga di hari yang sama.",
   primaryCta: "Pesan lewat WhatsApp",
@@ -59,9 +59,9 @@ export const stages: Stage[] = [
     kicker: "Dingin",
     title: "Dibotolkan hari itu juga, langsung dingin",
     body:
-      "Begitu diaduk, kopinya masuk botol 250 ml, ditutup rapat, dan langsung didinginkan. Tidak ada stok menginap. Yang kamu terima adalah botol yang diseduh pagi itu untuk namamu.",
+      "Begitu diaduk, kopinya masuk botol, ditutup rapat, dan langsung didinginkan. Tidak ada stok menginap. Yang kamu terima adalah botol yang diseduh pagi itu untuk namamu.",
     facts: [
-      { label: "Botol", value: "250 & 500 ml" },
+      { label: "Botol", value: "500 ml & 1 L" },
       { label: "Umur simpan", value: "2 hari di kulkas" },
       { label: "Pre-order", value: "Tutup Kamis malam" },
     ],

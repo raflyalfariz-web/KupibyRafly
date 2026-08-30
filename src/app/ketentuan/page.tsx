@@ -26,7 +26,7 @@ export default function KetentuanPage() {
         {
           heading: "Kesegaran dan penyimpanan",
           body:
-            "Produk diseduh dan dibotolkan pada hari pengambilan. Simpan di kulkas dan habiskan dalam dua hari. Produk mengandung susu — beri tahu kami kalau kamu punya alergi.",
+            "Produk diseduh dan dibotolkan pada hari pengambilan. Simpan di kulkas dan habiskan dalam dua hari. Produk mengandung susu — beri tahu aku kalau kamu punya alergi.",
         },
         {
           heading: "Pembatalan",

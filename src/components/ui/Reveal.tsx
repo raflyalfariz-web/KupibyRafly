@@ -38,6 +38,10 @@ type RevealProps = {
 /**
  * Scroll-triggered entrance.
  *
+ * The design system asks for almost no motion, so this is kept to a short
+ * 400ms fade with a 16px rise — enough to mark a section arriving, not an
+ * "entrance animation". Reduced motion removes it entirely.
+ *
  * Uses `gsap.from` with `immediateRender: false` deliberately: nothing is
  * hidden until the ScrollTrigger actually fires. If GSAP never runs — no JS,
  * a stalled ticker, a failed init — the content simply stays visible instead
@@ -49,7 +53,7 @@ export function Reveal({
   as = "div",
   delay = 0,
   stagger,
-  y = 28,
+  y = 16,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { ready, reducedMotion } = useCapabilities();
@@ -65,10 +69,10 @@ export function Reveal({
       gsap.from(targets, {
         opacity: 0,
         y,
-        duration: 0.9,
+        duration: 0.4,
         delay,
         stagger,
-        ease: "power3.out",
+        ease: "power2.out",
         immediateRender: false,
         scrollTrigger: {
           trigger: el,

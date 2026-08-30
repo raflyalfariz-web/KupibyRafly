@@ -15,28 +15,17 @@ export function StaticProduct({ className }: { className?: string }) {
 
   return (
     <div className={`relative mx-auto w-full max-w-[26rem] ${className ?? ""}`}>
-      {/* Warm halo behind the product. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-[-12%] top-[6%] bottom-[10%] rounded-[50%]
-                   bg-[radial-gradient(closest-side,rgba(192,138,78,0.34),transparent_72%)] blur-2xl"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-8 bottom-2 h-6 rounded-[50%] bg-bark/25 blur-xl"
-      />
-
       <div className="relative aspect-[3/5] w-full">
         {imageFailed ? (
           <BottleIllustration className="h-full w-full" />
         ) : (
           <Image
             src="/brand/kupi-bottle.jpg"
-            alt="Botol KUPI by Rafly berisi es kopi susu gula aren, dengan label krem bertanda atap joglo."
+            alt="Botol KUPI by Rafly berisi es kupi gula aren, dengan label krem bertanda atap joglo."
             fill
             priority
             sizes="(max-width: 768px) 70vw, 26rem"
-            className="object-contain drop-shadow-[0_28px_44px_rgba(74,43,24,0.28)]"
+            className="object-contain"
             onError={() => setImageFailed(true)}
           />
         )}
@@ -56,7 +45,7 @@ export function BottleIllustration({ className }: { className?: string }) {
       viewBox="0 0 160 420"
       className={className}
       role="img"
-      aria-label="Ilustrasi botol KUPI 250 ml berisi kopi susu gula aren"
+      aria-label="Ilustrasi botol KUPI 500 ml berisi kopi susu gula aren"
       fill="none"
     >
       <defs>
@@ -104,19 +93,19 @@ export function BottleIllustration({ className }: { className?: string }) {
       </g>
       <path
         d="M61 31h38v11c0 6 4 9 12 14 14 8 24 12 24 24v323c0 10-8 17-18 17H43c-10 0-18-7-18-17V80c0-12 10-16 24-24 8-5 12-8 12-14V31Z"
-        stroke="#4a2b18"
+        stroke="#44250E"
         strokeOpacity="0.32"
         strokeWidth="1.6"
       />
 
       {/* Label */}
-      <rect x="25" y="96" width="110" height="279" fill="#f6ecd2" />
-      <path d="M80 116l34 40v14l-34-40-34 40v-14l34-40Z" fill="#2c1d12" />
+      <rect x="25" y="96" width="110" height="279" fill="#FBF1DF" />
+      <path d="M80 116l34 40v14l-34-40-34 40v-14l34-40Z" fill="#44250E" />
       <text
         x="80"
         y="205"
         textAnchor="middle"
-        fill="#2c1d12"
+        fill="#44250E"
         fontSize="30"
         fontFamily="Georgia, serif"
         letterSpacing="2.5"
@@ -127,7 +116,7 @@ export function BottleIllustration({ className }: { className?: string }) {
         x="92"
         y="230"
         textAnchor="middle"
-        fill="#2c1d12"
+        fill="#44250E"
         fontSize="15"
         fontStyle="italic"
         fontFamily="Georgia, serif"
@@ -139,7 +128,7 @@ export function BottleIllustration({ className }: { className?: string }) {
         y1="250"
         x2="114"
         y2="250"
-        stroke="#2c1d12"
+        stroke="#44250E"
         strokeOpacity="0.45"
         strokeWidth="1.2"
       />
@@ -147,7 +136,7 @@ export function BottleIllustration({ className }: { className?: string }) {
         x="80"
         y="330"
         textAnchor="middle"
-        fill="#2c1d12"
+        fill="#44250E"
         fillOpacity="0.7"
         fontSize="9"
         fontFamily="Helvetica, Arial, sans-serif"
@@ -159,13 +148,13 @@ export function BottleIllustration({ className }: { className?: string }) {
         x="80"
         y="348"
         textAnchor="middle"
-        fill="#2c1d12"
+        fill="#44250E"
         fillOpacity="0.55"
         fontSize="8"
         fontFamily="Helvetica, Arial, sans-serif"
         letterSpacing="1.4"
       >
-        250 ML · TANGERANG
+        500 ML · TANGERANG
       </text>
     </svg>
   );
