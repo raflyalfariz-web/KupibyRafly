@@ -1,0 +1,24 @@
+<!-- @dsCard group="Components" viewport="700x380" name="Messaging" subtitle="Android phone frame and WhatsApp bubbles for mocking order threads" -->
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--surface-page);font-family:var(--font-text);color:var(--text-body)}.pad{padding:20px}.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin:0 0 8px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const {PhoneScreen,ChatBubble}=window.KUPIByRaflyDesignSystem_40eb5d;
+function App(){return <div className="pad" style={{display:'flex',gap:24,alignItems:'flex-start'}}>
+<div style={{width:176,height:352,overflow:'hidden'}}><div style={{transform:'scale(0.42)',transformOrigin:'top left'}}>
+<PhoneScreen chrome="whatsapp" title="KUPI by Rafly" subtitle="online">
+<ChatBubble from="customer" time="09.40">Mas, 1L gula aren masih ada?</ChatBubble>
+<ChatBubble from="shop" time="09.41">{"Ada! Ready 4 botol.\nMau dikirim atau ambil sendiri?"}</ChatBubble>
+<ChatBubble from="customer" time="09.42">Dikirim ya, ke kantor</ChatBubble>
+</PhoneScreen></div></div>
+<div style={{flex:1,maxWidth:380}}><p className="lbl">ChatBubble at full size</p>
+<div style={{background:'#ECE5DD',padding:10,borderRadius:10,display:'grid',gap:6}}>
+<ChatBubble from="customer" time="09.40">Mas, 1L gula aren masih ada?</ChatBubble>
+<ChatBubble from="shop" time="09.41" ticks="read">{"Ada! Ready 4 botol.\nMau dikirim atau ambil sendiri?"}</ChatBubble>
+</div></div></div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script></body></html>

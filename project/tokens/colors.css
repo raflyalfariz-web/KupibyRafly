@@ -1,0 +1,65 @@
+:root{
+/* ---- Brand brown (locked): Kopi Tubruk ---- */
+--brown-900:#2A1608;
+--brown-800:#351D0B;
+--brown-700:#44250E; /* LOCKED primary */
+--brown-500:#6B4426;
+--brown-300:#9A7550;
+
+/* ---- Paper / cream surfaces ---- */
+--cream-50:#FDF9F0;
+--cream-100:#FBF1DF; /* the logo's own background */
+--cream-200:#F4E7D0;
+
+/* ---- Warm neutral steps ---- */
+--neutral-100:#EDE2CE;
+--neutral-200:#DCCDB2;
+--neutral-300:#B9A88C;
+--neutral-400:#8A7A64;
+--neutral-500:#574C3E;
+
+/* ---- Accent: gula aren amber ---- */
+--amber-600:#9C5B10;
+--amber-500:#C1741A;
+--amber-300:#E9A63C;
+--amber-100:#F8E3BE;
+
+/* ---- Semantic hues ---- */
+--green-600:#256B45;
+--green-100:#DCEEE2;
+--terracotta-600:#9C4416;
+--terracotta-100:#F8E0D2;
+
+/* ---- Semantic aliases (use these in components) ---- */
+--surface-page:var(--cream-50);
+--surface-card:#FFFDF8;
+--surface-sunken:var(--cream-200);
+--surface-ink:var(--brown-700);
+--surface-accent:var(--amber-100);
+
+--text-strong:var(--brown-900);
+--text-body:var(--brown-700);
+--text-muted:#7A6A55;
+--text-on-ink:var(--cream-100);
+--text-on-amber:var(--brown-900);
+--text-price:var(--brown-700);
+
+--border-default:#E3D3B6;
+--border-strong:var(--brown-700);
+--border-subtle:#F0E4CD;
+
+--action-primary:#0E7A3C;      /* order-lane green. Deliberately darker than WhatsApp's
+                                  own #25D366: white 18px label needs 4.5:1 in
+                                  direct sun, and #25D366 gives 1.9:1. Trade-off:
+                                  slightly less "WhatsApp-native", far more readable. */
+--action-primary-press:#0B5F30;
+--action-secondary:var(--brown-700);
+--action-secondary-press:var(--brown-900);
+--accent:var(--amber-500);
+--accent-press:var(--amber-600);
+
+--state-success:var(--green-600);
+--state-success-bg:var(--green-100);
+--state-warning:var(--terracotta-600);
+--state-warning-bg:var(--terracotta-100);
+}

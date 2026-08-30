@@ -1,0 +1,19 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Logo" subtitle="Mark, stacked, horizontal — light and dark artwork, minimums enforced" -->
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--surface-page);font-family:var(--font-text);color:var(--text-body)}.pad{padding:20px}.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin:0 0 8px}.b{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const {Logo}=window.KUPIByRaflyDesignSystem_40eb5d;
+function App(){return <div className="pad">
+<div className="b">
+<div><p className="lbl">Horizontal · 200</p><Logo lockup="horizontal" width={200} base="../../assets"/></div>
+<div><p className="lbl">Stacked · 120</p><Logo lockup="stacked" width={120} base="../../assets"/></div>
+<div><p className="lbl">Mark · 40 / 24 min</p><div style={{display:'flex',gap:12,alignItems:'flex-end'}}><Logo lockup="mark" width={40} base="../../assets"/><Logo lockup="mark" width={24} base="../../assets"/></div></div>
+<div style={{background:'var(--brown-700)',padding:'14px 18px',borderRadius:'var(--radius-md)'}}><p className="lbl" style={{color:'var(--cream-200)'}}>On brown</p><Logo lockup="horizontal" on="dark" width={180} base="../../assets"/></div>
+</div></div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script></body></html>

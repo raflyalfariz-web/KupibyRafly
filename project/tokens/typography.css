@@ -1,0 +1,28 @@
+:root{
+/* Faces */
+--font-display:"Zilla Slab",Georgia,serif;      /* headings, prices, labels */
+--font-text:"Work Sans","Helvetica Neue",Arial,sans-serif; /* everything else */
+
+/* Mobile-first scale — sized for a 390px-wide Android screen */
+--type-display-xl:40px;  --lh-display-xl:42px;
+--type-display-l:32px;   --lh-display-l:36px;
+--type-heading:24px;     --lh-heading:29px;
+--type-subheading:20px;  --lh-subheading:26px;
+--type-body:16px;        --lh-body:25px;
+--type-body-sm:14px;     --lh-body-sm:21px;
+--type-caption:13px;     --lh-caption:18px;
+--type-label:12px;       --lh-label:14px;
+--type-micro:11px;       --lh-micro:14px;
+
+/* Prices (Zilla Slab 600, tabular) */
+--type-price-xl:34px;    --lh-price-xl:36px;
+--type-price:24px;       --lh-price:26px;
+
+/* Weights + tracking */
+--weight-regular:400;
+--weight-medium:500;
+--weight-semibold:600;
+--weight-bold:700;
+--tracking-label:0.08em;
+--tracking-display:-0.01em;
+}

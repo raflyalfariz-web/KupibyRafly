@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="QR bottle landing page" description="The scan-the-bottle mobile page: batch info, today's menu, sticky WhatsApp order button." -->
+<helmet><script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script><script src="./ds-base.js"></script><style>body{margin:0;background:#FDF9F0}</style></helmet>
+<div style="width:390px;margin:0 auto;background:var(--surface-page);font-family:var(--font-text);color:var(--text-body);min-height:100vh;position:relative;padding-bottom:96px">
+<header style="background:var(--brown-700);padding:12px 20px;display:flex;align-items:center;justify-content:space-between">
+<img src="../../assets/logo-horizontal-cream.png" alt="KUPI by Rafly" style="height:34px;width:auto">
+<span style="color:var(--cream-200);font-size:13px">Kaliurang</span>
+</header>
+<section style="padding:24px 20px 20px;display:grid;gap:16px">
+<div style="display:flex;gap:8px">
+<span style="font-size:12px;line-height:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;border-radius:6px;background:var(--state-success-bg);color:var(--state-success)">Botol ini</span>
+<span style="font-size:12px;line-height:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;border-radius:6px;background:var(--amber-100);color:var(--amber-600)">Batch 0824-03</span>
+</div>
+<span style="font-size:12px;line-height:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-600)">Yang kamu pegang</span>
+<h1 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:32px;line-height:36px;letter-spacing:-.01em;color:var(--text-strong);text-wrap:pretty">Kopi Susu Gula Aren</h1>
+<p style="margin:0;font-size:16px;line-height:25px;color:var(--text-muted);text-wrap:pretty">Kopi seduh dingin, susu segar, gula aren asli dari Bantul. Manisnya lembut.</p>
+<span style="display:block;width:48px;height:3px;background:var(--brown-700)"></span>
+<div>
+<p style="margin:0;font-family:var(--font-display);font-weight:500;font-size:20px;color:var(--text-body)">500ml &middot; botol ini</p>
+<p style="margin:2px 0 0;font-family:var(--font-display);font-weight:600;font-size:34px;line-height:36px;letter-spacing:-.01em;color:var(--text-price);font-variant-numeric:tabular-nums">Rp22.000</p>
+<p style="margin:2px 0 0;font-size:13px;color:var(--text-muted)">cukup 2 gelas</p>
+</div>
+<section style="background:var(--surface-sunken);border:1px solid var(--border-default);border-radius:12px;padding:16px;display:grid;gap:12px">
+<div style="display:flex;align-items:baseline;gap:12px"><span style="min-width:132px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--text-muted)">Batch</span><span style="font-family:var(--font-display);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums">0824-03</span></div>
+<div style="display:flex;align-items:baseline;gap:12px"><span style="min-width:132px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--text-muted)">Diseduh</span><span style="font-family:var(--font-display);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums">24 Agu, 05.30</span></div>
+<div style="display:flex;align-items:baseline;gap:12px"><span style="min-width:132px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--text-muted)">Baik sebelum</span><span style="font-family:var(--font-display);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums">27 Agu</span></div>
+<div style="display:flex;align-items:baseline;gap:12px"><span style="min-width:132px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--text-muted)">Biji</span><span style="font-family:var(--font-display);font-size:16px;font-weight:500">Gayo, medium</span></div>
+</section>
+<p style="margin:0;font-size:13px;line-height:18px;color:var(--text-muted);text-wrap:pretty">Simpan di kulkas ya. Kalau sudah dibuka, habiskan hari itu.</p>
+</section>
+<section style="background:var(--cream-100);padding:24px 20px;display:grid;gap:16px">
+<span style="font-size:12px;line-height:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-600)">Menu hari ini</span>
+<h2 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:32px;line-height:36px;letter-spacing:-.01em;color:var(--text-strong)">Mau nambah?</h2>
+<span style="display:block;width:48px;height:3px;background:var(--brown-700)"></span>
+<article style="background:var(--surface-card);border:2px solid var(--border-default);border-radius:18px;padding:20px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:12px">
+<h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:24px;line-height:29px;color:var(--text-strong)">Kopi Susu Gula Aren</h3>
+<p style="margin:0;font-size:14px;line-height:21px;color:var(--text-muted);text-wrap:pretty">Yang paling sering dipesan. Manisnya dari gula aren asli.</p>
+<div style="display:grid;gap:8px;border-top:1px solid var(--border-subtle);padding-top:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:var(--font-display);font-size:16px;font-weight:500">500ml</span><span style="font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--text-price);font-variant-numeric:tabular-nums">Rp22.000</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:var(--font-display);font-size:16px;font-weight:500">1L</span><span style="font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--text-price);font-variant-numeric:tabular-nums">Rp40.000</span></div>
+</div>
+</article>
+<article style="background:var(--surface-card);border:2px solid var(--border-default);border-radius:18px;padding:20px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:12px">
+<h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:24px;line-height:29px;color:var(--text-strong)">Kopi Hitam Dingin</h3>
+<p style="margin:0;font-size:14px;line-height:21px;color:var(--text-muted);text-wrap:pretty">Tanpa susu, tanpa gula. Pahitnya bersih, nggak asam.</p>
+<div style="display:grid;gap:8px;border-top:1px solid var(--border-subtle);padding-top:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:var(--font-display);font-size:16px;font-weight:500">500ml</span><span style="font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--text-price);font-variant-numeric:tabular-nums">Rp18.000</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:var(--font-display);font-size:16px;font-weight:500">1L</span><span style="font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--text-price);font-variant-numeric:tabular-nums">Rp33.000</span></div>
+</div>
+</article>
+</section>
+<section style="padding:24px 20px;display:grid;gap:14px">
+<span style="font-size:12px;line-height:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-600)">Info toko</span>
+<h2 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:32px;line-height:36px;color:var(--text-strong)">Cara pesan</h2>
+<span style="display:block;width:48px;height:3px;background:var(--brown-700)"></span>
+<p style="margin:0;font-size:16px;line-height:25px"><strong style="font-family:var(--font-display)">Buka</strong> setiap hari, 07.00&ndash;17.00</p>
+<p style="margin:0;font-size:16px;line-height:25px"><strong style="font-family:var(--font-display)">Antar</strong> gratis radius 3 km, pesan sebelum 09.00</p>
+<p style="margin:0;font-size:16px;line-height:25px"><strong style="font-family:var(--font-display)">Bayar</strong> transfer BCA atau cash pas terima</p>
+<div style="display:flex;gap:12px;justify-content:center;margin-top:12px;opacity:.85">
+<img src="../../assets/logo-mark.png" alt="" style="width:24px;height:auto">
+<img src="../../assets/logo-mark.png" alt="" style="width:24px;height:auto">
+<img src="../../assets/logo-mark.png" alt="" style="width:24px;height:auto">
+</div>
+</section>
+<footer style="background:var(--brown-700);padding:24px 20px;display:grid;gap:12px;justify-items:center;text-align:center">
+<img src="../../assets/logo-stacked-cream.png" alt="KUPI by Rafly" style="width:104px;height:auto">
+<p style="margin:0;color:var(--cream-200);font-size:13px;line-height:18px">Diseduh sendiri tiap subuh di Kaliurang.<br>WA 0812-3456-7890</p>
+</footer>
+<div style="position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:390px;padding:12px 20px 16px;background:linear-gradient(to top,#FDF9F0 62%,rgba(253,249,240,0))">
+<x-import component-from-global-scope="KUPIByRaflyDesignSystem_40eb5d.Button" variant="primary" size="cta" icon="message-circle" href="https://wa.me/6281234567890" hint-size="350px,56px">Pesan lewat WhatsApp</x-import>
+</div>
+</div>
+</x-dc>
+</body>
+</html>
