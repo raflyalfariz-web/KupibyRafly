@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored Claude Design handoff bundle — HTML/CSS/JS prototypes, not
+    // production source. Linting them with the app's rules is meaningless.
+    "project/**",
+    "chats/**",
   ]),
 ]);
 
