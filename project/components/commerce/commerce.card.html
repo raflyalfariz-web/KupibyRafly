@@ -1,0 +1,29 @@
+<!-- @dsCard group="Components" viewport="900x560" name="Commerce" subtitle="Price rows, drink card, batch info block — mobile width on cream" -->
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--surface-page);font-family:var(--font-text);color:var(--text-body)}.pad{padding:20px}.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin:0 0 8px}.row{display:flex;gap:22px;align-items:flex-start}.col{width:390px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const {PriceDisplay,ProductCard,BatchInfo,QtyStepper,Tag}=window.KUPIByRaflyDesignSystem_40eb5d;
+function App(){return <div className="pad row">
+<div className="col">
+<p className="lbl">ProductCard</p>
+<ProductCard name="Kopi Susu Gula Aren" blurb="Manisnya dari gula aren asli, nggak bikin serak."
+ tags={[{label:'Paling laris',tone:'amber'},{label:'Ready',tone:'success'}]}
+ sizes={[{size:'500ml',price:22000,note:'cukup 2 gelas'},{size:'1L',price:40000,note:'hemat Rp4.000'}]}
+ footer={<div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:4}}><span style={{fontSize:13,color:'var(--text-muted)'}}>Jumlah 500ml</span><QtyStepper value={1}/></div>}/>
+</div>
+<div className="col" style={{display:'grid',gap:18}}>
+<div><p className="lbl">PriceDisplay · row</p>
+<div style={{display:'grid',gap:8,background:'var(--surface-card)',border:'2px solid var(--border-default)',borderRadius:'var(--radius-md)',padding:16}}>
+<PriceDisplay size="500ml" price={22000}/><PriceDisplay size="1L" price={40000} was={44000}/></div></div>
+<div><p className="lbl">PriceDisplay · hero + stack</p>
+<PriceDisplay size="1L · gula aren" price={40000} note="cukup 4–5 gelas" layout="stack" emphasis="hero"/></div>
+<div><p className="lbl">BatchInfo</p>
+<BatchInfo batch="0824-03" brewed="24 Agu, 05.30" bestBefore="27 Agu" beans="Gayo, medium"/></div>
+</div></div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script></body></html>

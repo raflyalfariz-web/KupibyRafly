@@ -1,0 +1,7 @@
+/* KUPI by Rafly — webfonts.
+   Both faces are free on Google Fonts and loaded from the Google CDN.
+   No self-hosted binaries: the brief is "one person with a browser", and
+   the CDN keeps the sablon vendor / phone-browser path zero-maintenance.
+   The hand-lettered "KUPI by Rafly" wordmark is ARTWORK (assets/logo-*.png),
+   not a font — never re-set it in type. */
+@import url("https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap");

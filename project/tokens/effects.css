@@ -1,0 +1,12 @@
+:root{
+--radius-sm:6px;--radius-md:12px;--radius-lg:18px;--radius-pill:999px;
+--border-hairline:1px;   /* screen only — never on a sablon label */
+--border-solid:2px;      /* the brand's default line weight */
+/* Warm, low shadows. Structure comes from borders first, shadow second. */
+--shadow-card:0 1px 0 rgba(42,22,8,0.06),0 6px 14px -8px rgba(42,22,8,0.18);
+--shadow-press:0 0 0 rgba(42,22,8,0);
+--shadow-raise:0 2px 0 rgba(42,22,8,0.18);
+--ease-standard:cubic-bezier(.2,.7,.3,1); /* @kind other */
+--dur-fast:120ms; /* @kind other */
+--dur-base:180ms; /* @kind other */
+}

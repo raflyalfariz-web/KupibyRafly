@@ -1,0 +1,18 @@
+<!-- @dsCard group="Colors" viewport="700x270" name="Semantic & action" subtitle="Order green, success, warning — each with its own background" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<style>body{margin:0;background:var(--surface-page);font-family:var(--font-text);color:var(--text-body)}
+.wrap{padding:18px 20px;display:flex;gap:14px;flex-wrap:wrap}
+.sw{width:150px}
+.chip{height:76px;border-radius:var(--radius-md);border:1px solid rgba(42,22,8,.12)}
+.nm{font-family:var(--font-display);font-weight:600;font-size:14px;margin:8px 0 1px;color:var(--text-strong)}
+.hex{font-size:11px;letter-spacing:.06em;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.use{font-size:11.5px;line-height:15px;color:var(--text-muted);margin-top:4px;text-wrap:pretty}
+.tok{font-size:10px;color:var(--neutral-400);margin-top:3px}
+</style></head><body><div class="wrap">
+<div class="sw"><div class="chip" style="background:var(--action-primary)"></div><p class="nm">Hijau Pesan</p><p class="hex">#0E7A3C</p><p class="use">The WhatsApp order button. Darker than WhatsApp’s green on purpose — white 18px needs 5.4:1 outdoors.</p><p class="tok">--action-primary</p></div>
+<div class="sw"><div class="chip" style="background:var(--action-primary-press)"></div><p class="nm">Hijau Ditekan</p><p class="hex">#0B5F30</p><p class="use">Pressed state of the order button. Only ever under a thumb.</p><p class="tok">--action-primary-press</p></div>
+<div class="sw"><div class="chip" style="background:var(--state-success)"></div><p class="nm">Daun</p><p class="hex">#256B45</p><p class="use">“Ready”, “sudah dibayar”. Text colour, on the tint beside it.</p><p class="tok">--state-success</p></div>
+<div class="sw"><div class="chip" style="background:var(--state-success-bg)"></div><p class="nm">Daun Muda</p><p class="hex">#DCEEE2</p><p class="use">Success tag background. 5.32:1 with Daun text.</p><p class="tok">--state-success-bg</p></div>
+<div class="sw"><div class="chip" style="background:var(--state-warning)"></div><p class="nm">Kayu Manis</p><p class="hex">#9C4416</p><p class="use">“Sisa 4”, “last call”. Warning text, never a big fill.</p><p class="tok">--state-warning</p></div>
+<div class="sw"><div class="chip" style="background:var(--state-warning-bg)"></div><p class="nm">Kayu Manis Muda</p><p class="hex">#F8E0D2</p><p class="use">Warning tag background. 5.10:1 with Kayu Manis text.</p><p class="tok">--state-warning-bg</p></div>
+</div></body></html>

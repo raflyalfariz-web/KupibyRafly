@@ -1,0 +1,8 @@
+:root{
+--sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:20px;--sp-6:24px;
+--sp-8:32px;--sp-10:40px;--sp-12:48px;--sp-14:56px;
+--gutter-mobile:20px;   /* page edge padding on a 390px screen */
+--tap-min:48px;         /* never smaller — thumbs, outdoors, one hand */
+--tap-cta:56px;         /* primary WhatsApp CTA height */
+--max-content:390px;
+}
