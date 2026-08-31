@@ -25,12 +25,28 @@ import type { SceneRefs } from "./types";
  */
 const LIQUID = new THREE.Color("#c1915f");
 
-/** Real proportions, bottom-up: gula aren sinks, milk floats. */
+/**
+ * The unstirred layers, bottom-up: gula aren sinks, milk floats.
+ *
+ * These are display proportions, not the recipe. By volume the drink is
+ * 85 / 10 / 5, which puts both boundaries in the bottom sixth of the bottle
+ * where the base curves away and the syrup band is a 0.12-unit sliver — you
+ * cannot read it. Sized like this the three layers sit across the middle of
+ * the bottle and are legible at the Racikan zoom. The real ratio is stated in
+ * the copy beside the scene, which is where a number belongs.
+ */
 const BANDS = [
-  { from: 0, to: 0.05, color: new THREE.Color("#9c5b10") }, // gula aren
-  { from: 0.05, to: 0.15, color: new THREE.Color("#2a1608") }, // espresso
-  { from: 0.15, to: 1, color: new THREE.Color("#f0e2ca") }, // susu
+  { from: 0, to: 0.3, color: new THREE.Color("#9c5b10") }, // gula aren
+  { from: 0.3, to: 0.5, color: new THREE.Color("#2a1608") }, // espresso
+  { from: 0.5, to: 1, color: new THREE.Color("#f0e2ca") }, // susu
 ] as const;
+
+/**
+ * How far the bottle turns at the Racikan stage. The label is opaque and
+ * covers 132° of the front, so it has to swing clear of the camera-facing
+ * centre or it hides the very layers the stage exists to show.
+ */
+const LAYER_TURN = 0.8;
 
 const RAMP_HEIGHT = 256;
 
@@ -70,10 +86,14 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
     const t = state.clock.elapsedTime;
     const px = refs.pointer.current.x;
     const py = refs.pointer.current.y;
+    const layered = band(stage, 1.72, 2.34, 0.3);
 
     // Slow idle spin, extra turn as the story advances, plus pointer parallax.
+    // The idle drift is held while the layers show, so the label's position is
+    // deterministic there rather than wherever the clock happened to leave it.
     // Damped so a fast scroll never snaps the bottle around.
-    const targetY = t * 0.09 + stage * 0.55 + px * 0.28;
+    const targetY =
+      t * 0.09 * (1 - layered) + stage * 0.55 + px * 0.28 + layered * LAYER_TURN;
     const targetX = py * 0.1 + Math.sin(t * 0.5) * 0.015;
     const targetZ = Math.sin(stage * Math.PI) * 0.06;
 

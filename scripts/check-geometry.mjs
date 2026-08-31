@@ -79,14 +79,26 @@ for (let v = 0; v < lpos.count; v++) {
 ok(maxOver <= -BOTTLE.wall + 1e-6, `liquid breaches the glass by ${(maxOver + BOTTLE.wall).toFixed(4)}`);
 liquid.dispose();
 // --- The ingredient layers must be on screen at the "Racikan" stage -------
-// They are painted at the real 85/10/5 proportions, which puts both
-// boundaries near the base — below the opaque label. The stage-2 camera has
-// to be aimed there or the layering is invisible, which is the whole point.
+// Must mirror BANDS and LAYER_TURN in components/three/KupiBottle.tsx.
+const BAND_STOPS = [0.3, 0.5];
+const LAYER_TURN = 0.8;
 const GROUP_Y = 0.1; // the bottle group's offset in SceneCanvas
 const col = BOTTLE.liquidTop - BOTTLE.liquidBottom;
-const arenTop = BOTTLE.liquidBottom + col * 0.05;
-const espressoTop = BOTTLE.liquidBottom + col * 0.15;
-ok(espressoTop < labelBottom, `layer boundaries at ${espressoTop.toFixed(2)} are hidden behind the label (bottom ${labelBottom.toFixed(2)})`);
+const arenTop = BOTTLE.liquidBottom + col * BAND_STOPS[0];
+const espressoTop = BOTTLE.liquidBottom + col * BAND_STOPS[1];
+
+// Both boundaries should sit around the middle of the bottle, not at an end.
+const bodyMid = (bb.min.y + BOTTLE_PROFILE.at(-1)[1]) / 2;
+ok(Math.abs((arenTop + espressoTop) / 2 - bodyMid) < 0.35,
+  `layers centre on ${((arenTop + espressoTop) / 2).toFixed(2)}, body middle is ${bodyMid.toFixed(2)}`);
+
+// The label is opaque, so at this stage it must have turned clear of the
+// camera-facing centre (0 rad) or it hides the layers.
+const racikanRot = 2 * 0.55 + LAYER_TURN;
+const labelFrom = racikanRot - BOTTLE.labelArc / 2;
+const labelTo = racikanRot + BOTTLE.labelArc / 2;
+ok(labelFrom > 0.12, `label still covers the centre at Racikan (spans ${(labelFrom * 180 / Math.PI).toFixed(0)}°..${(labelTo * 180 / Math.PI).toFixed(0)}°)`);
+ok(labelTo < Math.PI * 2 - 0.12, "label wraps back onto the centre from the other side");
 
 function racikanSees(frames, aspect) {
   const p = new THREE.Vector3(), t = new THREE.Vector3();
@@ -123,7 +135,8 @@ console.log(`label / body height  ${(labelFrac*100).toFixed(1)}%  (centred, not 
 console.log(`label top / bottom   ${labelTop.toFixed(3)} / ${labelBottom.toFixed(3)}`);
 console.log(`liquid column        [${BOTTLE.liquidBottom.toFixed(2)}, ${BOTTLE.liquidTop.toFixed(2)}]  (one body, no bands)`);
 console.log(`liquid inset         ${(-maxOver).toFixed(3)} inside the outer wall (wall ${BOTTLE.wall})`);
-console.log(`layer boundaries     y ${arenTop.toFixed(2)} and ${espressoTop.toFixed(2)}  (below label at ${labelBottom.toFixed(2)})`);
+console.log(`layer boundaries     y ${arenTop.toFixed(2)} and ${espressoTop.toFixed(2)}  (body middle ${bodyMid.toFixed(2)})`);
+console.log(`label at Racikan     ${(labelFrom * 180 / Math.PI).toFixed(0)}° .. ${(labelTo * 180 / Math.PI).toFixed(0)}°  (centre 0° is clear)`);
 for (const [name, frames, aspect] of [["desktop", CAMERA_DESKTOP, 16 / 9], ["mobile ", CAMERA_MOBILE, 375 / 812]]) {
   const [lo, hi] = racikanSees(frames, aspect);
   console.log(`Racikan ${name}      sees y ${lo.toFixed(2)} .. ${hi.toFixed(2)}`);
