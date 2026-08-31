@@ -62,7 +62,7 @@ export const BOTTLE = {
    * centred on the body rather than filling it.
    */
   labelRadius: 0.397,
-  labelArc: (115 * Math.PI) / 180,
+  labelArc: (132 * Math.PI) / 180,
   labelCenterY: -0.05,
   /** Ribbed aluminium screw cap, wider than the neck. */
   capBottom: 1.3,

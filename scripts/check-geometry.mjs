@@ -52,14 +52,10 @@ ok(labelFrac > 0.3 && labelFrac < 0.65, `label covers ${(labelFrac*100).toFixed(
 
 // --- Liquid stays inside the glass at every height ------------------------
 // Must mirror LAYERS in components/three/KupiBottle.tsx — the real recipe.
-const LAYERS = [0.05, 0.10, 0.85];
-const column = BOTTLE.liquidTop - BOTTLE.liquidBottom;
-let cursor = BOTTLE.liquidBottom;
-const spans = LAYERS.map(f => { const s = [cursor, cursor + column * f]; cursor = s[1]; return s; });
-
-ok(Math.abs(cursor - BOTTLE.liquidTop) < 1e-9, `bands do not fill the column exactly (${cursor})`);
+// The drink is one uniform body — no bands. It must stay inside the glass
+// wall at every height, including through the shoulder and into the neck.
 ok(BOTTLE.liquidTop < BOTTLE.capBottom, `liquid ${BOTTLE.liquidTop} pokes into the cap`);
-ok(BOTTLE.liquidBottom > bb.min.y, `liquid below the base`);
+ok(BOTTLE.liquidBottom > bb.min.y, "liquid below the base");
 
 const radiusAt = (y) => {
   for (let i = 1; i < BOTTLE_PROFILE.length - 1; i++) {
@@ -70,26 +66,16 @@ const radiusAt = (y) => {
   return BOTTLE_PROFILE.at(-1)[0];
 };
 
-spans.forEach(([y0, y1], i) => {
-  const geo = createLiquidSegment(y0, y1);
-  const pos = geo.attributes.position;
-  let maxOver = -Infinity;
-  for (let v = 0; v < pos.count; v++) {
-    const x = pos.getX(v), y = pos.getY(v), z = pos.getZ(v);
-    ok(Number.isFinite(x + y + z), `NaN vertex in band ${i}`);
-    const r = Math.hypot(x, z);
-    maxOver = Math.max(maxOver, r - radiusAt(y));
-  }
-  // Every liquid vertex must be inside the glass wall.
-  ok(maxOver <= -BOTTLE.wall + 1e-6, `band ${i} breaches the glass by ${(maxOver + BOTTLE.wall).toFixed(4)}`);
-  geo.dispose();
-});
-
-// Separation offsets must not push the top band into the cap.
-const maxGap = 0.042;
-const topBandTop = spans[2][1] + maxGap;
-ok(topBandTop <= BOTTLE.capBottom, `separated top band reaches ${topBandTop.toFixed(3)}, cap starts ${BOTTLE.capBottom}`);
-
+const liquid = createLiquidSegment(BOTTLE.liquidBottom, BOTTLE.liquidTop, 28);
+const lpos = liquid.attributes.position;
+let maxOver = -Infinity;
+for (let v = 0; v < lpos.count; v++) {
+  const x = lpos.getX(v), y = lpos.getY(v), z = lpos.getZ(v);
+  ok(Number.isFinite(x + y + z), "NaN vertex in the liquid");
+  maxOver = Math.max(maxOver, Math.hypot(x, z) - radiusAt(y));
+}
+ok(maxOver <= -BOTTLE.wall + 1e-6, `liquid breaches the glass by ${(maxOver + BOTTLE.wall).toFixed(4)}`);
+liquid.dispose();
 console.log(`bottle height        ${totalH.toFixed(3)}`);
 console.log(`body diameter        ${(bodyRadius*2).toFixed(3)}`);
 console.log(`aspect (real 3.57)   ${aspect.toFixed(2)}`);
@@ -97,7 +83,7 @@ console.log(`cap / body radius    ${(BOTTLE.capRadius/bodyRadius).toFixed(3)}  (
 console.log(`label arc            ${(BOTTLE.labelArc*180/Math.PI).toFixed(0)}°  (front face only)`);
 console.log(`label / body height  ${(labelFrac*100).toFixed(1)}%  (centred, not full)`);
 console.log(`label top / bottom   ${labelTop.toFixed(3)} / ${labelBottom.toFixed(3)}`);
-console.log(`liquid bands         ${spans.map(s=>`[${s[0].toFixed(2)}, ${s[1].toFixed(2)}]`).join("  ")}`);
-console.log(`separated top band   ${topBandTop.toFixed(3)}  (cap at ${BOTTLE.capBottom})`);
+console.log(`liquid column        [${BOTTLE.liquidBottom.toFixed(2)}, ${BOTTLE.liquidTop.toFixed(2)}]  (one body, no bands)`);
+console.log(`liquid inset         ${(-maxOver).toFixed(3)} inside the outer wall (wall ${BOTTLE.wall})`);
 console.log(fail.length ? `\nFAILED:\n - ${fail.join("\n - ")}` : `\nAll ${checks} checks passed (most are per-vertex liquid containment).`);
 process.exit(fail.length ? 1 : 0);

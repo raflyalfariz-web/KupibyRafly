@@ -12,34 +12,19 @@ import {
   createRandom,
 } from "./geometry";
 import { LABEL_ASPECT, createLabelTexture } from "./labelTexture";
-import { band, smoothstep, toStage } from "./anim";
+import { band, toStage } from "./anim";
 import type { SceneRefs } from "./types";
 
 /**
- * The three components at the drink's real 85 / 10 / 5 ratio, and the colour
- * they become once stirred. BLEND is sampled from the product photo rather
- * than mixed from the bands — the finished drink is darker than 85% milk
- * would suggest, because the espresso is pulled short and strong.
+ * The drink is one colour, sampled from the product photo.
+ *
+ * It was previously three stacked meshes at the 85 / 10 / 5 ratio that
+ * separated during the "Racikan" stage. Even fully blended, the coincident
+ * end caps where the segments met shaded and z-fought into visible bands at
+ * the top and bottom of the column, so the bottle read as layered when the
+ * real drink is stirred and uniform. The ratio is told in the copy instead.
  */
-const BLEND = new THREE.Color("#c1915f");
-const LAYERS = [
-  { id: "aren", fraction: 0.05, color: new THREE.Color("#9c5b10") },
-  { id: "espresso", fraction: 0.1, color: new THREE.Color("#2a1608") },
-  { id: "milk", fraction: 0.85, color: new THREE.Color("#f0e2ca") },
-] as const;
-
-/** Peaks at the "Racikan" stage, closed again by the time we reach "Dingin". */
-function separationAt(stage: number): number {
-  return smoothstep(1.15, 2.0, stage) * (1 - smoothstep(2.35, 2.95, stage));
-}
-
-/** Height range of one ingredient band within the liquid column. */
-function layerBounds(index: number): { bottomY: number; topY: number } {
-  const column = BOTTLE.liquidTop - BOTTLE.liquidBottom;
-  const below = LAYERS.slice(0, index).reduce((sum, l) => sum + l.fraction, 0);
-  const bottomY = BOTTLE.liquidBottom + column * below;
-  return { bottomY, topY: bottomY + column * LAYERS[index].fraction };
-}
+const LIQUID = new THREE.Color("#c1915f");
 
 export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
   const group = useRef<THREE.Group>(null);
@@ -85,9 +70,7 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
   return (
     <group ref={group}>
       {/* Liquid first: it must render before the transparent shell. */}
-      {LAYERS.map((layer, index) => (
-        <LiquidLayer key={layer.id} refs={refs} index={index} />
-      ))}
+      <Liquid />
 
       {/* Glass shell. Real transmission only where the GPU can afford it. */}
       <mesh geometry={bottleGeometry} renderOrder={2}>
@@ -126,60 +109,19 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
 }
 
 /**
- * One of the three ingredient bands inside the bottle. The geometry follows the
- * bottle's inner wall, so the topmost band narrows correctly through the
- * shoulder and up into the neck.
+ * A single closed body of coffee following the bottle's inner wall, so it
+ * narrows correctly through the shoulder and up into the neck with no seams.
  */
-function LiquidLayer({ refs, index }: { refs: SceneRefs; index: number }) {
-  const material = useRef<THREE.MeshStandardMaterial>(null);
-  const mesh = useRef<THREE.Mesh>(null);
-
-  const { bottomY, topY } = useMemo(() => layerBounds(index), [index]);
-  const centerY = (bottomY + topY) / 2;
-
-  // Built around its own centre so the separation offset and squash read
-  // symmetrically, then positioned back where it belongs.
-  const geometry = useMemo(() => {
-    const geo = createLiquidSegment(bottomY, topY);
-    geo.translate(0, -centerY, 0);
-    return geo;
-  }, [bottomY, topY, centerY]);
-
+function Liquid() {
+  const geometry = useMemo(
+    () => createLiquidSegment(BOTTLE.liquidBottom, BOTTLE.liquidTop, 28),
+    [],
+  );
   useEffect(() => () => geometry.dispose(), [geometry]);
 
-  useFrame((_, delta) => {
-    if (!material.current || !mesh.current) return;
-    const stage = toStage(refs.progress.current);
-    const separation = separationAt(stage);
-
-    // Pure ingredient colours while separated; everything melts into the
-    // finished drink's caramel once the layers close back up.
-    material.current.color.lerpColors(BLEND, LAYERS[index].color, separation);
-
-    // Open a hairline gap between bands so the ratio is legible up close.
-    const gap = (index - 1) * 0.042 * separation;
-    mesh.current.position.y = THREE.MathUtils.damp(
-      mesh.current.position.y,
-      centerY + gap,
-      6,
-      delta,
-    );
-    mesh.current.scale.y = THREE.MathUtils.damp(
-      mesh.current.scale.y,
-      1 - separation * 0.05,
-      6,
-      delta,
-    );
-  });
-
   return (
-    <mesh ref={mesh} geometry={geometry} position={[0, centerY, 0]} renderOrder={1}>
-      <meshStandardMaterial
-        ref={material}
-        color={BLEND}
-        roughness={0.32}
-        metalness={0.02}
-      />
+    <mesh geometry={geometry} renderOrder={1}>
+      <meshStandardMaterial color={LIQUID} roughness={0.32} metalness={0.02} />
     </mesh>
   );
 }
