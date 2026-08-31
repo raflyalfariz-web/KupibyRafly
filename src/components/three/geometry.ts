@@ -110,6 +110,18 @@ export function createLiquidSegment(
   }
   points.push(new THREE.Vector2(0, topY));
   const geo = new THREE.LatheGeometry(points, 48);
+
+  // Re-map v to normalised height. LatheGeometry spaces v by point index, so
+  // the closing cap points skew it; this makes v exactly proportional to y,
+  // which is what lets a 1-D ramp texture place the ingredient bands.
+  const uv = geo.attributes.uv;
+  const pos = geo.attributes.position;
+  const span = topY - bottomY;
+  for (let i = 0; i < uv.count; i += 1) {
+    uv.setY(i, (pos.getY(i) - bottomY) / span);
+  }
+  uv.needsUpdate = true;
+
   geo.computeVertexNormals();
   return geo;
 }

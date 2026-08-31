@@ -63,8 +63,10 @@ export const CAMERA_DESKTOP: Keyframe[] = [
   { pos: [0, 0.12, 7.0], target: [-0.95, 0.0, 0], fov: 30 },
   // 1 — origin: orbit round and slightly above; bottle moves to the left.
   { pos: [-2.6, 1.15, 6.3], target: [0.85, 0.05, 0], fov: 32 },
-  // 2 — craft: push in close on the label and the separated layers.
-  { pos: [1.0, 0.35, 4.15], target: [-0.42, 0.2, 0], fov: 27 },
+  // 2 — craft: push in close and drop the aim to the base of the column,
+  // where the real 85/10/5 boundaries sit. Framing the middle instead would
+  // show only the opaque label and the milk above it.
+  { pos: [1.0, -0.1, 4.15], target: [-0.42, -0.25, 0], fov: 27 },
   // 3 — serve: settle into a centred product shot, copy below.
   { pos: [0.2, -0.15, 6.2], target: [0.0, -0.3, 0], fov: 30 },
 ];
@@ -72,6 +74,6 @@ export const CAMERA_DESKTOP: Keyframe[] = [
 export const CAMERA_MOBILE: Keyframe[] = [
   { pos: [0, 0.15, 9.2], target: [0, -0.6, 0], fov: 34 },
   { pos: [-2.0, 1.0, 8.6], target: [0, -0.5, 0], fov: 34 },
-  { pos: [0.8, 0.3, 6.1], target: [0, -0.28, 0], fov: 32 },
+  { pos: [0.55, -0.45, 3.6], target: [0, -0.8, 0], fov: 32 },
   { pos: [0.15, -0.1, 8.8], target: [0, -0.55, 0], fov: 34 },
 ];

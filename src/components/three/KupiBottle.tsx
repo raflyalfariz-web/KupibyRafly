@@ -16,15 +16,36 @@ import { band, toStage } from "./anim";
 import type { SceneRefs } from "./types";
 
 /**
- * The drink is one colour, sampled from the product photo.
+ * The stirred drink, sampled from the product photo.
  *
- * It was previously three stacked meshes at the 85 / 10 / 5 ratio that
- * separated during the "Racikan" stage. Even fully blended, the coincident
- * end caps where the segments met shaded and z-fought into visible bands at
- * the top and bottom of the column, so the bottle read as layered when the
- * real drink is stirred and uniform. The ratio is told in the copy instead.
+ * The bottle is one mesh, never stacked segments: coincident end caps between
+ * segments shaded and z-fought into false bands. The ingredient layers are
+ * painted instead, by a 1-D ramp texture read along the column's height, so
+ * they can appear and dissolve with no seams anywhere.
  */
 const LIQUID = new THREE.Color("#c1915f");
+
+/** Real proportions, bottom-up: gula aren sinks, milk floats. */
+const BANDS = [
+  { from: 0, to: 0.05, color: new THREE.Color("#9c5b10") }, // gula aren
+  { from: 0.05, to: 0.15, color: new THREE.Color("#2a1608") }, // espresso
+  { from: 0.15, to: 1, color: new THREE.Color("#f0e2ca") }, // susu
+] as const;
+
+const RAMP_HEIGHT = 256;
+
+/** Paints the ramp: 0 = fully stirred, 1 = fully separated. */
+function paintRamp(ctx: CanvasRenderingContext2D, amount: number): void {
+  const mixed = new THREE.Color();
+  for (const stop of BANDS) {
+    mixed.copy(LIQUID).lerp(stop.color, amount);
+    ctx.fillStyle = `#${mixed.getHexString()}`;
+    // Texture v = 0 is the bottom of the column; canvas y = 0 is the top.
+    const top = (1 - stop.to) * RAMP_HEIGHT;
+    const bottom = (1 - stop.from) * RAMP_HEIGHT;
+    ctx.fillRect(0, top, 1, bottom - top + 1);
+  }
+}
 
 export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
   const group = useRef<THREE.Group>(null);
@@ -70,7 +91,7 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
   return (
     <group ref={group}>
       {/* Liquid first: it must render before the transparent shell. */}
-      <Liquid />
+      <Liquid refs={refs} />
 
       {/* Glass shell. Real transmission only where the GPU can afford it. */}
       <mesh geometry={bottleGeometry} renderOrder={2}>
@@ -111,17 +132,65 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
 /**
  * A single closed body of coffee following the bottle's inner wall, so it
  * narrows correctly through the shoulder and up into the neck with no seams.
+ *
+ * Its colour comes from a 1px-wide ramp texture sampled along height. Away
+ * from the "Racikan" stage every stop is the stirred colour, so the drink
+ * reads as one uniform body; through that stage the stops separate into the
+ * real 85 / 10 / 5 layers.
  */
-function Liquid() {
+function Liquid({ refs }: { refs: SceneRefs }) {
+  const mesh = useRef<THREE.Mesh>(null);
+  const painted = useRef(0);
+
   const geometry = useMemo(
     () => createLiquidSegment(BOTTLE.liquidBottom, BOTTLE.liquidTop, 28),
     [],
   );
-  useEffect(() => () => geometry.dispose(), [geometry]);
+
+  const texture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = RAMP_HEIGHT;
+    paintRamp(canvas.getContext("2d")!, 0);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.wrapS = THREE.ClampToEdgeWrapping;
+    tex.wrapT = THREE.ClampToEdgeWrapping;
+    return tex;
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      geometry.dispose();
+      texture.dispose();
+    };
+  }, [geometry, texture]);
+
+  useFrame(() => {
+    const current = mesh.current;
+    if (!current) return;
+    const stage = toStage(refs.progress.current);
+    const amount = band(stage, 1.72, 2.34, 0.3);
+    // Repaint only when it actually moves — this runs every frame.
+    if (Math.abs(amount - painted.current) < 0.004) return;
+    painted.current = amount;
+
+    // Reached through the material, so nothing a render owns is mutated.
+    const map = (current.material as THREE.MeshStandardMaterial).map;
+    if (!map) return;
+    const canvas = map.image as HTMLCanvasElement;
+    paintRamp(canvas.getContext("2d")!, amount);
+    map.needsUpdate = true;
+  });
 
   return (
-    <mesh geometry={geometry} renderOrder={1}>
-      <meshStandardMaterial color={LIQUID} roughness={0.32} metalness={0.02} />
+    <mesh ref={mesh} geometry={geometry} renderOrder={1}>
+      <meshStandardMaterial
+        map={texture}
+        color="#ffffff"
+        roughness={0.32}
+        metalness={0.02}
+      />
     </mesh>
   );
 }

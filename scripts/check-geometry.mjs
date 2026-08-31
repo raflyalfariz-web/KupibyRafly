@@ -1,6 +1,8 @@
 // Checks the procedural bottle against measurements taken from the product
 // photo. Run with: npm run check:geometry
+import * as THREE from "three";
 import { BOTTLE, BOTTLE_PROFILE, createBottleGeometry, createLiquidSegment } from "../src/components/three/geometry.ts";
+import { CAMERA_DESKTOP, CAMERA_MOBILE, sampleKeyframes } from "../src/components/three/anim.ts";
 
 const fail = [];
 let checks = 0;
@@ -76,6 +78,42 @@ for (let v = 0; v < lpos.count; v++) {
 }
 ok(maxOver <= -BOTTLE.wall + 1e-6, `liquid breaches the glass by ${(maxOver + BOTTLE.wall).toFixed(4)}`);
 liquid.dispose();
+// --- The ingredient layers must be on screen at the "Racikan" stage -------
+// They are painted at the real 85/10/5 proportions, which puts both
+// boundaries near the base — below the opaque label. The stage-2 camera has
+// to be aimed there or the layering is invisible, which is the whole point.
+const GROUP_Y = 0.1; // the bottle group's offset in SceneCanvas
+const col = BOTTLE.liquidTop - BOTTLE.liquidBottom;
+const arenTop = BOTTLE.liquidBottom + col * 0.05;
+const espressoTop = BOTTLE.liquidBottom + col * 0.15;
+ok(espressoTop < labelBottom, `layer boundaries at ${espressoTop.toFixed(2)} are hidden behind the label (bottom ${labelBottom.toFixed(2)})`);
+
+function racikanSees(frames, aspect) {
+  const p = new THREE.Vector3(), t = new THREE.Vector3();
+  const fov = sampleKeyframes(frames, 2, p, t);
+  const cam = new THREE.PerspectiveCamera(fov, aspect, 0.4, 60);
+  cam.position.copy(p);
+  cam.lookAt(t);
+  cam.updateMatrixWorld(true);
+  cam.updateProjectionMatrix();
+  const v = new THREE.Vector3();
+  let lo = null, hi = null;
+  for (let y = -3; y <= 2; y += 0.005) {
+    v.set(0, y + GROUP_Y, BOTTLE.labelRadius).project(cam);
+    if (Math.abs(v.y) <= 1) { if (lo === null) lo = y; hi = y; }
+  }
+  return [lo, hi];
+}
+
+for (const [name, frames, aspect] of [
+  ["desktop 16:9", CAMERA_DESKTOP, 16 / 9],
+  ["desktop 4:3", CAMERA_DESKTOP, 4 / 3],
+  ["mobile", CAMERA_MOBILE, 375 / 812],
+]) {
+  const [lo, hi] = racikanSees(frames, aspect);
+  ok(arenTop > lo && espressoTop < hi, `${name}: Racikan camera sees ${lo.toFixed(2)}..${hi.toFixed(2)}, missing a layer boundary`);
+}
+
 console.log(`bottle height        ${totalH.toFixed(3)}`);
 console.log(`body diameter        ${(bodyRadius*2).toFixed(3)}`);
 console.log(`aspect (real 3.57)   ${aspect.toFixed(2)}`);
@@ -85,5 +123,10 @@ console.log(`label / body height  ${(labelFrac*100).toFixed(1)}%  (centred, not 
 console.log(`label top / bottom   ${labelTop.toFixed(3)} / ${labelBottom.toFixed(3)}`);
 console.log(`liquid column        [${BOTTLE.liquidBottom.toFixed(2)}, ${BOTTLE.liquidTop.toFixed(2)}]  (one body, no bands)`);
 console.log(`liquid inset         ${(-maxOver).toFixed(3)} inside the outer wall (wall ${BOTTLE.wall})`);
+console.log(`layer boundaries     y ${arenTop.toFixed(2)} and ${espressoTop.toFixed(2)}  (below label at ${labelBottom.toFixed(2)})`);
+for (const [name, frames, aspect] of [["desktop", CAMERA_DESKTOP, 16 / 9], ["mobile ", CAMERA_MOBILE, 375 / 812]]) {
+  const [lo, hi] = racikanSees(frames, aspect);
+  console.log(`Racikan ${name}      sees y ${lo.toFixed(2)} .. ${hi.toFixed(2)}`);
+}
 console.log(fail.length ? `\nFAILED:\n - ${fail.join("\n - ")}` : `\nAll ${checks} checks passed (most are per-vertex liquid containment).`);
 process.exit(fail.length ? 1 : 0);
