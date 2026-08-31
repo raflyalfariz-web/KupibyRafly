@@ -3,7 +3,8 @@
 import { BOTTLE, BOTTLE_PROFILE, createBottleGeometry, createLiquidSegment } from "../src/components/three/geometry.ts";
 
 const fail = [];
-const ok = (cond, msg) => { if (!cond) fail.push(msg); };
+let checks = 0;
+const ok = (cond, msg) => { checks += 1; if (!cond) fail.push(msg); };
 
 // --- Profile sanity -------------------------------------------------------
 let prevY = -Infinity;
@@ -31,17 +32,27 @@ ok(BOTTLE.capBottom < BOTTLE_PROFILE.at(-1)[1], `cap bottom ${BOTTLE.capBottom} 
 // Photo: cap radius ≈ 0.41 × body radius
 ok(Math.abs(BOTTLE.capRadius / bodyRadius - 0.41) < 0.05, `cap/body ratio ${(BOTTLE.capRadius/bodyRadius).toFixed(3)} off`);
 
-// --- Label sits on the straight section, under the shoulder ---------------
+// --- Label: a front-only sticker, centred, not full -----------------------
+// The supplied artwork is 709x1063 and is printed on the front face only.
+const LABEL_ASPECT = 709 / 1063;
 const straightTop = BOTTLE_PROFILE.find(p => p[0] === bodyRadius && p[1] > 0)[1];
-ok(BOTTLE.labelTop < straightTop, `label top ${BOTTLE.labelTop} runs onto the shoulder (starts ${straightTop})`);
-ok(BOTTLE.labelBottom > bb.min.y, `label bottom ${BOTTLE.labelBottom} below the base`);
-ok(BOTTLE.labelRadius > bodyRadius, `label radius must sit outside the glass`);
+const labelH = (BOTTLE.labelRadius * BOTTLE.labelArc) / LABEL_ASPECT;
+const labelTop = BOTTLE.labelCenterY + labelH / 2;
+const labelBottom = BOTTLE.labelCenterY - labelH / 2;
 const bodyH = BOTTLE_PROFILE.at(-1)[1] - bb.min.y;
-const labelFrac = (BOTTLE.labelTop - BOTTLE.labelBottom) / bodyH;
-ok(Math.abs(labelFrac - 0.758) < 0.06, `label covers ${(labelFrac*100).toFixed(0)}% of body, photo says 76%`);
+const labelFrac = labelH / bodyH;
+
+ok(BOTTLE.labelRadius > bodyRadius, "label radius must sit outside the glass");
+ok(BOTTLE.labelArc < Math.PI, `label arc ${(BOTTLE.labelArc*180/Math.PI).toFixed(0)}° must be under 180° — front face only`);
+ok(labelTop < straightTop, `label top ${labelTop.toFixed(3)} runs onto the shoulder (starts ${straightTop})`);
+ok(labelBottom > bb.min.y + 0.1, `label bottom ${labelBottom.toFixed(3)} too close to the base`);
+// "ditengah, tetapi ukurannya tidak full"
+ok(Math.abs(BOTTLE.labelCenterY) < 0.15, `label not centred on the body (centre ${BOTTLE.labelCenterY})`);
+ok(labelFrac > 0.3 && labelFrac < 0.65, `label covers ${(labelFrac*100).toFixed(0)}% of the body — should read as centred, not full`);
 
 // --- Liquid stays inside the glass at every height ------------------------
-const LAYERS = [0.25, 0.30, 0.45];
+// Must mirror LAYERS in components/three/KupiBottle.tsx — the real recipe.
+const LAYERS = [0.05, 0.10, 0.85];
 const column = BOTTLE.liquidTop - BOTTLE.liquidBottom;
 let cursor = BOTTLE.liquidBottom;
 const spans = LAYERS.map(f => { const s = [cursor, cursor + column * f]; cursor = s[1]; return s; });
@@ -83,8 +94,10 @@ console.log(`bottle height        ${totalH.toFixed(3)}`);
 console.log(`body diameter        ${(bodyRadius*2).toFixed(3)}`);
 console.log(`aspect (real 3.57)   ${aspect.toFixed(2)}`);
 console.log(`cap / body radius    ${(BOTTLE.capRadius/bodyRadius).toFixed(3)}  (real 0.41)`);
-console.log(`label / body height  ${(labelFrac*100).toFixed(1)}%  (real 75.8%)`);
+console.log(`label arc            ${(BOTTLE.labelArc*180/Math.PI).toFixed(0)}°  (front face only)`);
+console.log(`label / body height  ${(labelFrac*100).toFixed(1)}%  (centred, not full)`);
+console.log(`label top / bottom   ${labelTop.toFixed(3)} / ${labelBottom.toFixed(3)}`);
 console.log(`liquid bands         ${spans.map(s=>`[${s[0].toFixed(2)}, ${s[1].toFixed(2)}]`).join("  ")}`);
 console.log(`separated top band   ${topBandTop.toFixed(3)}  (cap at ${BOTTLE.capBottom})`);
-console.log(fail.length ? `\nFAILED:\n - ${fail.join("\n - ")}` : `\nAll ${13} geometry assertions passed.`);
+console.log(fail.length ? `\nFAILED:\n - ${fail.join("\n - ")}` : `\nAll ${checks} checks passed (most are per-vertex liquid containment).`);
 process.exit(fail.length ? 1 : 0);

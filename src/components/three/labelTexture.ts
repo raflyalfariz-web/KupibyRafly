@@ -1,34 +1,30 @@
 import * as THREE from "three";
 
-/** Sampled from the real label artwork. */
-const CREAM = "#fff7dc";
-const INK = "#2a1608";
-
-/** Wrap texture proportions, matching the label's height on the bottle. */
-const WIDTH = 1240;
-const HEIGHT = 1000;
+/** Sampled from the printed label stock. */
+const CREAM = "#faf0dc";
+const INK = "#4a2c14";
 
 /**
- * The brand's own label artwork — the same file that is printed on the bottle,
- * cropped to its content and re-encoded to WebP (596 KB PNG → 37 KB).
+ * The printed label artwork, as supplied.
+ *
+ * It is a front-only sticker, not a wrap, so this texture is just the label
+ * itself — mapped 1:1 onto a partial cylinder covering the front arc of the
+ * bottle. Nothing is drawn for the sides or the back; there is no label there.
  */
-const ARTWORK_SRC = "/brand/kupi-label.webp";
-const ARTWORK_ASPECT = 622 / 1140;
+const ARTWORK_SRC = "/brand/kupi-label.jpg";
 
-/** Artwork covers most of the label height; the rest is cream margin. */
-const ARTWORK_HEIGHT_FRACTION = 0.88;
+/** Source artwork is 709 × 1063. The mesh is sized from this. */
+export const LABEL_ASPECT = 709 / 1063;
+
+const WIDTH = 709;
+const HEIGHT = 1063;
 
 /**
- * Builds the wrap-around bottle label.
+ * Builds the label texture.
  *
- * The real label artwork is composited onto the front of the wrap so the mark,
- * wordmark and the genuine QR code are exactly the ones printed on the bottle.
- * Because that is an async image load, the canvas is first painted with a
- * drawn-from-scratch version of the same layout — so the bottle is never blank,
- * and it still looks right if the image never arrives.
- *
- * Artwork is centred at u = 0.5; the label mesh is rotated a half turn so that
- * point faces the camera and the texture seam hides at the back.
+ * The image load is async, so the canvas is first painted with a
+ * drawn-from-scratch version of the same layout — the bottle is never blank,
+ * and it still reads correctly if the image never arrives.
  */
 export function createLabelTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
@@ -36,23 +32,20 @@ export function createLabelTexture(): THREE.CanvasTexture {
   canvas.height = HEIGHT;
   const ctx = canvas.getContext("2d")!;
 
-  paintBase(ctx);
-  paintFallbackArtwork(ctx);
+  paintFallback(ctx);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 8;
   texture.needsUpdate = true;
 
-  // Swap in the real artwork as soon as it decodes.
   const image = new Image();
   image.decoding = "async";
   image.src = ARTWORK_SRC;
   image
     .decode()
     .then(() => {
-      paintBase(ctx);
-      paintArtwork(ctx, image);
+      ctx.drawImage(image, 0, 0, WIDTH, HEIGHT);
       texture.needsUpdate = true;
     })
     .catch(() => {
@@ -62,99 +55,49 @@ export function createLabelTexture(): THREE.CanvasTexture {
   return texture;
 }
 
-/** Cream stock, faint print speckle, and the small print around the back. */
-function paintBase(ctx: CanvasRenderingContext2D): void {
-  ctx.fillStyle = CREAM;
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-  ctx.fillStyle = "rgba(36,26,18,0.045)";
-  for (let i = 0; i < 1100; i += 1) {
-    ctx.fillRect(Math.random() * WIDTH, Math.random() * HEIGHT, 1, 1);
-  }
-
-  // Back of the bottle: recipe and storage notes, well clear of the artwork.
-  ctx.fillStyle = "rgba(36,26,18,0.45)";
-  ctx.textAlign = "center";
-  ctx.font = "400 21px Helvetica, Arial, sans-serif";
-  ctx.fillText("85% SUSU", 118, 452);
-  ctx.fillText("10% ESPRESSO", 118, 484);
-  ctx.fillText("5% GULA AREN", 118, 516);
-  ctx.fillText("SIMPAN DINGIN", WIDTH - 118, 468);
-  ctx.fillText("HABISKAN 2 HARI", WIDTH - 118, 500);
-}
-
-/** Draws the real label art centred on the front face of the wrap. */
-function paintArtwork(
-  ctx: CanvasRenderingContext2D,
-  image: HTMLImageElement,
-): void {
-  const drawH = HEIGHT * ARTWORK_HEIGHT_FRACTION;
-  const drawW = drawH * ARTWORK_ASPECT;
-  ctx.drawImage(image, (WIDTH - drawW) / 2, (HEIGHT - drawH) / 2, drawW, drawH);
-}
-
 /**
  * The same layout drawn with primitives — roofline, wordmark, signature, rule,
- * and a placeholder block where the QR sits. Deliberately not a QR-shaped
- * pattern: a fake code that cannot be scanned would be worse than an honest
- * blank, and this only ever shows if the artwork fails to load.
+ * product line and the production-date field. Deliberately no QR-shaped block
+ * where the code sits: something that looks scannable but is not would be
+ * worse than an honest gap, and this only ever shows if the artwork fails.
  */
-function paintFallbackArtwork(ctx: CanvasRenderingContext2D): void {
+function paintFallback(ctx: CanvasRenderingContext2D): void {
   const cx = WIDTH / 2;
-  const drawH = HEIGHT * ARTWORK_HEIGHT_FRACTION;
-  const top = (HEIGHT - drawH) / 2;
-  const half = 170;
+
+  ctx.fillStyle = CREAM;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
   // Roofline mark
   ctx.fillStyle = INK;
   ctx.beginPath();
-  ctx.moveTo(cx, top + 20);
-  ctx.lineTo(cx + half, top + 150);
-  ctx.lineTo(cx + half, top + 196);
-  ctx.lineTo(cx, top + 66);
-  ctx.lineTo(cx - half, top + 196);
-  ctx.lineTo(cx - half, top + 150);
+  ctx.moveTo(cx, 34);
+  ctx.lineTo(cx + 240, 218);
+  ctx.lineTo(cx + 240, 282);
+  ctx.lineTo(cx, 98);
+  ctx.lineTo(cx - 240, 282);
+  ctx.lineTo(cx - 240, 218);
   ctx.closePath();
   ctx.fill();
 
   ctx.textAlign = "center";
-  ctx.font = "600 104px Georgia, 'Times New Roman', serif";
-  drawTracked(ctx, "KUPI", cx, top + 316, 14);
+  ctx.font = "600 132px Georgia, 'Times New Roman', serif";
+  ctx.fillText("KUPI", cx, 330);
 
-  ctx.font = "italic 46px Georgia, 'Times New Roman', serif";
-  ctx.fillText("by Rafly", cx + 52, top + 386);
+  ctx.font = "italic 60px Georgia, 'Times New Roman', serif";
+  ctx.fillText("by Rafly", cx + 78, 440);
 
-  ctx.strokeStyle = "rgba(36,26,18,0.5)";
-  ctx.lineWidth = 3;
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 6;
   ctx.beginPath();
-  ctx.moveTo(cx - half, top + 440);
-  ctx.lineTo(cx + half, top + 440);
+  ctx.moveTo(cx - 210, 492);
+  ctx.lineTo(cx + 210, 492);
   ctx.stroke();
 
-  ctx.font = "500 24px Helvetica, Arial, sans-serif";
-  ctx.fillStyle = "rgba(36,26,18,0.55)";
-  drawTracked(ctx, "ES KUPI GULA AREN", cx, top + 700, 5);
-  drawTracked(ctx, "250 ML  ·  TANGERANG", cx, top + 738, 4);
-}
+  ctx.font = "500 54px Georgia, 'Times New Roman', serif";
+  ctx.fillText("Kupi Susu Gula Aren", cx, 562);
 
-/** Canvas 2D letter-spacing is not universally supported; space glyphs by hand. */
-function drawTracked(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  centerX: number,
-  y: number,
-  tracking: number,
-): void {
-  const chars = [...text];
-  const widths = chars.map((c) => ctx.measureText(c).width);
-  const total =
-    widths.reduce((sum, w) => sum + w, 0) + tracking * (chars.length - 1);
-  let x = centerX - total / 2;
-  const previousAlign = ctx.textAlign;
-  ctx.textAlign = "left";
-  chars.forEach((char, i) => {
-    ctx.fillText(char, x, y);
-    x += widths[i] + tracking;
-  });
-  ctx.textAlign = previousAlign;
+  ctx.font = "500 44px Georgia, 'Times New Roman', serif";
+  ctx.fillText("Production Date:", cx, 910);
+  ctx.font = "500 48px Georgia, 'Times New Roman', serif";
+  ctx.fillText("__ / __ / ____", cx, 985);
 }

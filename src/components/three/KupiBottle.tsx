@@ -11,7 +11,7 @@ import {
   createLiquidSegment,
   createRandom,
 } from "./geometry";
-import { createLabelTexture } from "./labelTexture";
+import { LABEL_ASPECT, createLabelTexture } from "./labelTexture";
 import { band, smoothstep, toStage } from "./anim";
 import type { SceneRefs } from "./types";
 
@@ -184,15 +184,22 @@ function LiquidLayer({ refs, index }: { refs: SceneRefs; index: number }) {
   );
 }
 
+/**
+ * A front-only label: a partial cylinder spanning `labelArc` centred on +z,
+ * so there is simply no geometry (and no cream band) around the sides and
+ * back — the glass and liquid show through as they do on the real bottle.
+ *
+ * Height comes from the artwork's aspect against the arc length, so the print
+ * is never stretched. thetaStart = -arc/2 puts u=0 on the viewer's left, so
+ * the artwork reads the right way round with no rotation.
+ */
 function Label({ texture }: { texture: THREE.CanvasTexture }) {
-  const height = BOTTLE.labelTop - BOTTLE.labelBottom;
-  const centerY = (BOTTLE.labelTop + BOTTLE.labelBottom) / 2;
+  const arc = BOTTLE.labelArc;
+  const height = (BOTTLE.labelRadius * arc) / LABEL_ASPECT;
   return (
-    // Half-turn so the artwork (centred at u=0.5) faces the camera and the
-    // texture seam hides at the back of the bottle.
-    <mesh position={[0, centerY, 0]} rotation={[0, Math.PI, 0]} renderOrder={3}>
+    <mesh position={[0, BOTTLE.labelCenterY, 0]} renderOrder={3}>
       <cylinderGeometry
-        args={[BOTTLE.labelRadius, BOTTLE.labelRadius, height, 72, 1, true]}
+        args={[BOTTLE.labelRadius, BOTTLE.labelRadius, height, 48, 1, true, -arc / 2, arc]}
       />
       <meshStandardMaterial
         map={texture}

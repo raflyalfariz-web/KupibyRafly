@@ -56,10 +56,14 @@ export const BOTTLE = {
   /** The bottle is filled up into the neck, exactly as the product photo shows. */
   liquidBottom: -1.16,
   liquidTop: 1.245,
-  /** Label covers roughly the middle three quarters of the body. */
-  labelBottom: -1.09,
-  labelTop: 0.93,
+  /**
+   * The label is a front-only sticker, not a wrap: a 115° arc centred on the
+   * front of the bottle, sized from the artwork's own aspect ratio and sitting
+   * centred on the body rather than filling it.
+   */
   labelRadius: 0.397,
+  labelArc: (115 * Math.PI) / 180,
+  labelCenterY: -0.05,
   /** Ribbed aluminium screw cap, wider than the neck. */
   capBottom: 1.3,
   capTop: 1.465,
