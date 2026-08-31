@@ -23,7 +23,7 @@ import type { SceneRefs } from "@/components/three/types";
 const SceneCanvas = lazy(() => import("@/components/three/SceneCanvas"));
 
 /** Where the copy sits so it never lands on top of the bottle. */
-const STAGE_ALIGN = ["right", "left", "bottom"] as const;
+const STAGE_ALIGN = ["right", "left"] as const;
 
 export function Experience() {
   const { immersive, tier, coarsePointer } = useCapabilities();
@@ -151,22 +151,11 @@ function ImmersiveExperience({
         {stages.map((stage, index) => {
           const align = STAGE_ALIGN[index] ?? "left";
           return (
-            <Panel
-              key={stage.id}
-              className={
-                align === "bottom"
-                  ? "items-end pb-16 md:pb-24"
-                  : "items-end pb-14 md:items-center md:pb-0"
-              }
-            >
+            <Panel key={stage.id} className="items-end pb-14 md:items-center md:pb-0">
               <div className="shell w-full">
                 <div
                   className={
-                    align === "right"
-                      ? "md:ml-auto md:max-w-[44%]"
-                      : align === "left"
-                        ? "md:max-w-[44%]"
-                        : "md:mx-auto md:max-w-[30rem] md:text-center"
+                    align === "right" ? "md:ml-auto md:max-w-[44%]" : "md:max-w-[44%]"
                   }
                 >
                   <PanelSurface>

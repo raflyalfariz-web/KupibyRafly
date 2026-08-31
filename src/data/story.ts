@@ -52,19 +52,6 @@ export const stages: Stage[] = [
       { label: "Gula aren", value: "5%" },
     ],
   },
-  {
-    id: "dingin",
-    index: "03",
-    kicker: "Dingin",
-    title: "Dibotolkan hari itu juga, langsung dingin",
-    body:
-      "Begitu diaduk, kopinya masuk botol, ditutup rapat, dan langsung didinginkan. Tidak ada stok menginap. Yang kamu terima adalah botol yang diseduh pagi itu untuk namamu.",
-    facts: [
-      { label: "Botol", value: "500 ml & 1 L" },
-      { label: "Umur simpan", value: "2 hari di kulkas" },
-      { label: "Pre-order", value: "Tutup Kamis malam" },
-    ],
-  },
 ];
 
 export type Step = {

@@ -8,7 +8,7 @@ import * as THREE from "three";
 import type { Tier } from "@/lib/capabilities";
 import { markSceneReady } from "@/lib/sceneReady";
 import { KupiBottle } from "./KupiBottle";
-import { AromaWisp, BeanField, IceCubes, Motes } from "./Atmosphere";
+import { AromaWisp, BeanField, Motes } from "./Atmosphere";
 import { CAMERA_DESKTOP, CAMERA_MOBILE, sampleKeyframes, toStage } from "./anim";
 import type { SceneRefs } from "./types";
 
@@ -70,12 +70,11 @@ export default function SceneCanvas({
         <ContextLossGuard onLost={onContextLost} />
         <SceneReadySignal />
         <CameraRig refs={refs} compact={compact} />
-        <Lighting refs={refs} full={full} />
+        <Lighting full={full} />
 
         <group position={[0, 0.1, 0]}>
           <KupiBottle refs={refs} tier={tier} />
           <BeanField refs={refs} tier={tier} />
-          <IceCubes refs={refs} />
           {full ? <AromaWisp refs={refs} /> : null}
         </group>
 
@@ -179,30 +178,15 @@ function CameraRig({ refs, compact }: { refs: SceneRefs; compact: boolean }) {
  * glass reads against the cream background. The rim cools off as the story
  * reaches the chilled final stage.
  */
-function Lighting({ refs, full }: { refs: SceneRefs; full: boolean }) {
-  const rim = useRef<THREE.PointLight>(null);
+function Lighting({ full }: { full: boolean }) {
   const warm = useMemo(() => new THREE.Color("#c1741a"), []);
-  const cool = useMemo(() => new THREE.Color("#7fa8bd"), []);
-
-  useFrame((_, delta) => {
-    if (!rim.current) return;
-    const stage = toStage(refs.progress.current);
-    const chill = THREE.MathUtils.clamp((stage - 2.1) / 0.9, 0, 1);
-    rim.current.color.lerpColors(warm, cool, chill);
-    rim.current.intensity = THREE.MathUtils.damp(
-      rim.current.intensity,
-      14 + chill * 8,
-      3,
-      delta,
-    );
-  });
 
   return (
     <>
       <ambientLight intensity={0.72} color="#fff2df" />
       <directionalLight position={[-3.4, 4.2, 3.6]} intensity={2.1} color="#fff4e2" />
       <directionalLight position={[3.2, 1.4, -2.6]} intensity={0.85} color="#ffd9b0" />
-      <pointLight ref={rim} position={[1.6, 0.4, -2.4]} intensity={14} distance={9} color={warm} />
+      <pointLight position={[1.6, 0.4, -2.4]} intensity={16} distance={9} color={warm} />
 
       {full ? (
         // Rendered once from these lightformers — a studio reflection for the

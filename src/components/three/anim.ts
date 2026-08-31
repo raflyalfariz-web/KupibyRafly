@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export const PANELS = 4;
+export const PANELS = 3;
 
 /** Maps 0..1 scroll progress onto a continuous panel index (0 .. PANELS-1). */
 export function toStage(progress: number): number {
@@ -66,13 +66,10 @@ export const CAMERA_DESKTOP: Keyframe[] = [
   // 2 — craft: push in close on the middle of the bottle, where the layers
   // are. The bottle turns at this stage so the label clears the centre.
   { pos: [1.0, 0.35, 4.15], target: [-0.42, 0.2, 0], fov: 27 },
-  // 3 — serve: settle into a centred product shot, copy below.
-  { pos: [0.2, -0.15, 6.2], target: [0.0, -0.3, 0], fov: 30 },
 ];
 
 export const CAMERA_MOBILE: Keyframe[] = [
   { pos: [0, 0.15, 9.2], target: [0, -0.6, 0], fov: 34 },
   { pos: [-2.0, 1.0, 8.6], target: [0, -0.5, 0], fov: 34 },
   { pos: [0.7, 0.15, 4.6], target: [0, -0.2, 0], fov: 32 },
-  { pos: [0.15, -0.1, 8.8], target: [0, -0.55, 0], fov: 34 },
 ];

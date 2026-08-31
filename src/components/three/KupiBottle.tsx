@@ -5,12 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 import type { Tier } from "@/lib/capabilities";
-import {
-  BOTTLE,
-  createBottleGeometry,
-  createLiquidSegment,
-  createRandom,
-} from "./geometry";
+import { BOTTLE, createBottleGeometry, createLiquidSegment } from "./geometry";
 import { LABEL_ASPECT, createLabelTexture } from "./labelTexture";
 import { band, toStage } from "./anim";
 import type { SceneRefs } from "./types";
@@ -47,6 +42,14 @@ const BANDS = [
  * centre or it hides the very layers the stage exists to show.
  */
 const LAYER_TURN = 0.8;
+
+/**
+ * How separated the layers are, 0..1. Racikan is the last panel now, so this
+ * opens through it and stays open rather than dissolving again.
+ */
+function layerAmount(stage: number): number {
+  return band(stage, 1.7, 2.6, 0.3);
+}
 
 const RAMP_HEIGHT = 256;
 
@@ -86,7 +89,7 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
     const t = state.clock.elapsedTime;
     const px = refs.pointer.current.x;
     const py = refs.pointer.current.y;
-    const layered = band(stage, 1.72, 2.34, 0.3);
+    const layered = layerAmount(stage);
 
     // Slow idle spin, extra turn as the story advances, plus pointer parallax.
     // The idle drift is held while the layers show, so the label's position is
@@ -144,7 +147,6 @@ export function KupiBottle({ refs, tier }: { refs: SceneRefs; tier: Tier }) {
 
       <Label texture={labelTexture} />
       <Cap />
-      {full ? <Condensation refs={refs} /> : null}
     </group>
   );
 }
@@ -190,7 +192,7 @@ function Liquid({ refs }: { refs: SceneRefs }) {
     const current = mesh.current;
     if (!current) return;
     const stage = toStage(refs.progress.current);
-    const amount = band(stage, 1.72, 2.34, 0.3);
+    const amount = layerAmount(stage);
     // Repaint only when it actually moves — this runs every frame.
     if (Math.abs(amount - painted.current) < 0.004) return;
     painted.current = amount;
@@ -269,70 +271,5 @@ function Cap() {
         <meshStandardMaterial color="#e2e6e8" roughness={0.22} metalness={0.95} />
       </mesh>
     </group>
-  );
-}
-
-const CONDENSATION_COUNT = 64;
-
-/** Droplets that bead on the glass once the story reaches "Dingin". */
-function Condensation({ refs }: { refs: SceneRefs }) {
-  const mesh = useRef<THREE.InstancedMesh>(null);
-
-  const seeds = useMemo(() => {
-    const rand = createRandom(4711);
-    return Array.from({ length: CONDENSATION_COUNT }, () => ({
-      angle: rand() * Math.PI * 2,
-      y: THREE.MathUtils.lerp(-1.05, 0.98, rand()),
-      scale: THREE.MathUtils.lerp(0.012, 0.03, rand()),
-    }));
-  }, []);
-
-  useEffect(() => {
-    const instanced = mesh.current;
-    if (!instanced) return;
-    const matrix = new THREE.Matrix4();
-    const quaternion = new THREE.Quaternion();
-    const position = new THREE.Vector3();
-    const scale = new THREE.Vector3();
-
-    seeds.forEach((seed, i) => {
-      position.set(
-        Math.sin(seed.angle) * (BOTTLE.labelRadius + 0.012),
-        seed.y,
-        Math.cos(seed.angle) * (BOTTLE.labelRadius + 0.012),
-      );
-      scale.setScalar(seed.scale);
-      matrix.compose(position, quaternion, scale);
-      instanced.setMatrixAt(i, matrix);
-    });
-    instanced.instanceMatrix.needsUpdate = true;
-  }, [seeds]);
-
-  useFrame((_, delta) => {
-    const instanced = mesh.current;
-    if (!instanced) return;
-    const stage = toStage(refs.progress.current);
-    const material = instanced.material as THREE.MeshPhysicalMaterial;
-    const target = band(stage, 2.5, 3.4, 0.5) * 0.75;
-    material.opacity = THREE.MathUtils.damp(material.opacity, target, 4, delta);
-    instanced.visible = material.opacity > 0.01;
-  });
-
-  return (
-    <instancedMesh
-      ref={mesh}
-      args={[undefined, undefined, CONDENSATION_COUNT]}
-      renderOrder={4}
-    >
-      <sphereGeometry args={[1, 10, 8]} />
-      <meshPhysicalMaterial
-        color="#eaf4f7"
-        roughness={0.05}
-        clearcoat={1}
-        transparent
-        opacity={0}
-        depthWrite={false}
-      />
-    </instancedMesh>
   );
 }
