@@ -17,13 +17,12 @@ export type Stage = {
 
 export const heroCopy = {
   kicker: "Small-batch · Tangerang",
-  title: "Es kupi",
-  titleAccent: "gula aren",
+  title: "Es KUPI",
+  titleAccent: "Gula Aren",
   lede:
     "Kopi susu gula aren yang diseduh sebotol demi sebotol di dapur rumah. Pre-order tiap minggu, dingin, dan sampai ke tangan tetangga di hari yang sama.",
   primaryCta: "Pesan lewat WhatsApp",
   secondaryCta: "Lihat menu",
-  scrollCue: "Gulir untuk lihat racikannya",
 };
 
 export const stages: Stage[] = [
@@ -33,24 +32,24 @@ export const stages: Stage[] = [
     kicker: "Asal",
     title: "Dimulai dari dapur, bukan dari gerai",
     body:
-      "Bijinya datang dari roastery kecil — blend Gayo untuk badan dan Java Preanger untuk manisnya. Gula arennya dari Banten, dimasak sendiri jadi sirup kental tiap minggu. Tidak ada gudang, tidak ada rantai pasok panjang. Cuma satu meja dapur di Tangerang.",
+      "Biji kopinya datang dari roastery lokal dari Banten. Perpaduan antara Arabika Sumatera dan Jawa Barat memberikan rasa kopi susu yang smooth, wangi, dan balance. Hasil roasting Medium-Dark memberikan rasa yang Bold walaupun telah dicampur susu dan gula aren. Tidak ada gudang, tidak ada rantai pasok panjang. Hanya satu meja dapur di Tangerang.",
     facts: [
-      { label: "Biji", value: "Gayo × Java Preanger" },
-      { label: "Sangrai", value: "Medium-dark" },
-      { label: "Aren", value: "Banten, dimasak sendiri" },
+      { label: "Biji", value: "100% Arabika" },
+      { label: "Origin", value: "Sumatera × Jawa Barat" },
+      { label: "Sangrai", value: "Medium-Dark" },
     ],
   },
   {
     id: "racikan",
     index: "02",
     kicker: "Racikan",
-    title: "Empat puluh lima. Tiga puluh. Dua puluh lima.",
+    title: "Delapan puluh lima. Sepuluh. Lima.",
     body:
-      "Takarannya tidak pernah diubah: 45% susu, 30% espresso, 25% gula aren. Espresso ditarik lebih pendek supaya tidak tenggelam di susu, arennya dituang terakhir supaya lapisannya kelihatan sebelum diaduk.",
+      "Takarannya tidak pernah diubah: 85% susu, 10% espresso, 5% gula aren. Espresso ditarik pendek supaya rasanya tetap bold walau susunya banyak, arennya dituang terakhir supaya lapisannya kelihatan sebelum diaduk.",
     facts: [
-      { label: "Susu", value: "45%" },
-      { label: "Espresso", value: "30%" },
-      { label: "Gula aren", value: "25%" },
+      { label: "Susu", value: "85%" },
+      { label: "Espresso", value: "10%" },
+      { label: "Gula aren", value: "5%" },
     ],
   },
   {

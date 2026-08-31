@@ -239,10 +239,3 @@ p, h1, h2, h3, h4, li, dd, dt, figcaption {
     rgba(253, 249, 240, 0)
   );
 }
-
-/* Scroll cue: a short bar sliding down a hairline track. */
-@keyframes cue {
-  0% { transform: translateY(-100%); }
-  55% { transform: translateY(300%); }
-  100% { transform: translateY(300%); }
-}

@@ -29,17 +29,6 @@ export function HeroCopy() {
   );
 }
 
-export function ScrollCue() {
-  return (
-    <div className="flex items-center gap-3 text-ink">
-      <span aria-hidden="true" className="relative block h-9 w-0.5 overflow-hidden bg-line">
-        <span className="absolute inset-x-0 top-0 h-3 animate-[cue_2.2s_ease-in-out_infinite] bg-amber motion-reduce:animate-none" />
-      </span>
-      <span className="eyebrow">{heroCopy.scrollCue}</span>
-    </div>
-  );
-}
-
 export function StageCopy({ stage }: { stage: Stage }) {
   return (
     <>

@@ -27,7 +27,7 @@ const workSans = Work_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.fullName} — es kupi gula aren dari ${site.city}`,
+    default: `${site.fullName} — Es KUPI Gula Aren dari ${site.city}`,
     template: `%s — ${site.fullName}`,
   },
   description: site.description,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     locale: "id_ID",
     url: site.url,
     siteName: site.fullName,
-    title: `${site.fullName} — es kupi gula aren`,
+    title: `${site.fullName} — Es KUPI Gula Aren`,
     description: site.description,
     images: [
       { url: "/brand/kupi-bottle.jpg", width: 324, height: 900, alt: "Botol KUPI by Rafly" },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.fullName} — es kupi gula aren`,
+    title: `${site.fullName} — Es KUPI Gula Aren`,
     description: site.description,
   },
   alternates: { canonical: "/" },

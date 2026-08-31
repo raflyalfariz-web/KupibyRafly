@@ -45,7 +45,7 @@ function StructuredData() {
       "@type": "Menu",
       hasMenuSection: {
         "@type": "MenuSection",
-        name: "Es kupi",
+        name: "Es KUPI",
         hasMenuItem: products.flatMap((product) =>
           product.sizes.map((size) => ({
             "@type": "MenuItem",

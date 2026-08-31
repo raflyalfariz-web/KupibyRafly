@@ -31,9 +31,9 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--surface-ink)] text-on-ink">
-      <div className="shell flex h-16 items-center justify-between gap-4">
+      <div className="shell flex items-center justify-between gap-4 py-3">
         <a href="#top" className="flex items-center" aria-label={`${site.fullName} — ke atas`}>
-          <Logo lockup="horizontal" on="dark" width={150} priority />
+          <Logo lockup="stacked" on="dark" width={96} priority />
         </a>
 
         <nav aria-label="Navigasi utama" className="hidden items-center gap-7 lg:flex">

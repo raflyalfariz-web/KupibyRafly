@@ -15,7 +15,7 @@ import { useCapabilities } from "@/lib/capabilities";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { markSceneReady } from "@/lib/sceneReady";
 import { StaticProduct } from "@/components/StaticProduct";
-import { HeroCopy, ScrollCue, StageCopy } from "@/components/experience/parts";
+import { HeroCopy, StageCopy } from "@/components/experience/parts";
 import type { SceneRefs } from "@/components/three/types";
 
 // The whole 3D bundle (three + fiber + drei) is a separate chunk that is only
@@ -144,9 +144,6 @@ function ImmersiveExperience({
               <PanelSurface>
                 <HeroCopy />
               </PanelSurface>
-            </div>
-            <div className="mt-10 hidden md:block">
-              <ScrollCue />
             </div>
           </div>
         </Panel>

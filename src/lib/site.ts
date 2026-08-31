@@ -19,7 +19,7 @@ export const site = {
   country: "Indonesia",
   tagline: "Kopi susu gula aren, diseduh sebotol demi sebotol di dapur rumah.",
   description:
-    "KUPI by Rafly — es kupi gula aren small-batch dari Tangerang. Diseduh di rumah, pre-order tiap minggu, diantar segar ke tetangga.",
+    "KUPI by Rafly — Es KUPI Gula Aren small-batch dari Tangerang. Diseduh di rumah, pre-order tiap minggu, diantar segar ke tetangga.",
   url: "https://kupi-by-rafly.netlify.app",
 
   whatsapp: {

@@ -3,7 +3,7 @@
  * (project/components/commerce/ProductCard.jsx): tags, name, blurb, and one
  * price row per size.
  *
- * NOTE: only "Es Kupi Gula Aren" and its 45/30/25 ratio came from the brand
+ * NOTE: only "Es KUPI Gula Aren" and its 85/10/5 ratio came from the brand
  * owner. Sizes follow the bundle (500ml and 1L); prices, tasting notes and
  * bean origins are placeholders — the bundle says so of its own mocks too.
  */
@@ -32,9 +32,9 @@ export type Product = {
 export const products: Product[] = [
   {
     id: "gula-aren",
-    name: "Es kupi gula aren",
+    name: "Es KUPI Gula Aren",
     blurb:
-      "Takarannya tetap: 45% susu, 30% espresso, 25% gula aren. Manisnya dari aren asli, bukan sirup.",
+      "Takarannya tetap: 85% susu, 10% espresso, 5% gula aren. Manisnya dari aren asli, bukan sirup.",
     tags: [
       { label: "Signature", tone: "amber" },
       { label: "Ready", tone: "success" },
@@ -47,7 +47,7 @@ export const products: Product[] = [
   },
   {
     id: "kupi-susu",
-    name: "Es kupi susu",
+    name: "Es KUPI Susu",
     blurb:
       "Espresso dan susu saja. Gulanya bisa kamu atur — bilang saja pas pesan.",
     tags: [{ label: "Ready", tone: "success" }],
@@ -59,7 +59,7 @@ export const products: Product[] = [
   },
   {
     id: "kupi-hitam",
-    name: "Kupi hitam dingin",
+    name: "KUPI Hitam Dingin",
     blurb:
       "Tanpa susu, tanpa gula. Diseduh panjang lalu didinginkan semalam supaya bulat, bukan pahit.",
     tags: [{ label: "Tinggal 6", tone: "warning" }],
@@ -89,5 +89,5 @@ export const batch = {
   code: "0824-03",
   brewed: "24 Agu, 05.30",
   bestBefore: "27 Agu",
-  beans: "Gayo, medium",
+  beans: "Arabika Sumatera × Jawa Barat",
 };

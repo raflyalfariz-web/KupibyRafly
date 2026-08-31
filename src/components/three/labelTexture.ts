@@ -76,9 +76,9 @@ function paintBase(ctx: CanvasRenderingContext2D): void {
   ctx.fillStyle = "rgba(36,26,18,0.45)";
   ctx.textAlign = "center";
   ctx.font = "400 21px Helvetica, Arial, sans-serif";
-  ctx.fillText("45% SUSU", 118, 452);
-  ctx.fillText("30% ESPRESSO", 118, 484);
-  ctx.fillText("25% GULA AREN", 118, 516);
+  ctx.fillText("85% SUSU", 118, 452);
+  ctx.fillText("10% ESPRESSO", 118, 484);
+  ctx.fillText("5% GULA AREN", 118, 516);
   ctx.fillText("SIMPAN DINGIN", WIDTH - 118, 468);
   ctx.fillText("HABISKAN 2 HARI", WIDTH - 118, 500);
 }

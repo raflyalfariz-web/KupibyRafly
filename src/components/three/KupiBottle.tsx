@@ -15,12 +15,17 @@ import { createLabelTexture } from "./labelTexture";
 import { band, smoothstep, toStage } from "./anim";
 import type { SceneRefs } from "./types";
 
-/** Colours of the three components, and the colour they become once stirred. */
+/**
+ * The three components at the drink's real 85 / 10 / 5 ratio, and the colour
+ * they become once stirred. BLEND is sampled from the product photo rather
+ * than mixed from the bands — the finished drink is darker than 85% milk
+ * would suggest, because the espresso is pulled short and strong.
+ */
 const BLEND = new THREE.Color("#c1915f");
 const LAYERS = [
-  { id: "aren", fraction: 0.25, color: new THREE.Color("#9c5b10") },
-  { id: "espresso", fraction: 0.3, color: new THREE.Color("#2a1608") },
-  { id: "milk", fraction: 0.45, color: new THREE.Color("#f0e2ca") },
+  { id: "aren", fraction: 0.05, color: new THREE.Color("#9c5b10") },
+  { id: "espresso", fraction: 0.1, color: new THREE.Color("#2a1608") },
+  { id: "milk", fraction: 0.85, color: new THREE.Color("#f0e2ca") },
 ] as const;
 
 /** Peaks at the "Racikan" stage, closed again by the time we reach "Dingin". */

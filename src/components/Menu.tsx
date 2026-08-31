@@ -85,7 +85,7 @@ function ProductCard({ product }: { product: Product }) {
 
       <ButtonLink href={orderHref} external variant="secondary" size="md" className="mt-1">
         <OrderIcon size={18} aria-hidden="true" />
-        Pesan {product.name.toLowerCase()}
+        Pesan {product.name}
       </ButtonLink>
     </li>
   );

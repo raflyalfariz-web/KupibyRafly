@@ -21,7 +21,7 @@ export function StaticProduct({ className }: { className?: string }) {
         ) : (
           <Image
             src="/brand/kupi-bottle.jpg"
-            alt="Botol KUPI by Rafly berisi es kupi gula aren, dengan label krem bertanda atap joglo."
+            alt="Botol KUPI by Rafly berisi Es KUPI Gula Aren, dengan label krem bertanda atap joglo."
             fill
             priority
             sizes="(max-width: 768px) 70vw, 26rem"
