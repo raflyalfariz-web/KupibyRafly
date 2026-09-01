@@ -4,9 +4,6 @@ import { Work_Sans, Zilla_Slab } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { CapabilitiesProvider } from "@/lib/capabilities";
-import { Preloader } from "@/components/Preloader";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
 
 /* The design system's pairing. Zilla Slab for anything that speaks up —
    headings, prices, labels — and Work Sans for everything that explains. */
@@ -68,21 +65,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${zillaSlab.variable} ${workSans.variable}`}>
       <body className="antialiased">
-        <CapabilitiesProvider>
-          <Preloader />
-
-          <a
-            href="#konten"
-            className="sr-only left-4 top-4 z-[110] inline-flex min-h-12 items-center rounded-md bg-order px-5
-                       text-sm font-semibold text-white focus:not-sr-only focus:fixed"
-          >
-            Lompat ke konten
-          </a>
-
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </CapabilitiesProvider>
+        <CapabilitiesProvider>{children}</CapabilitiesProvider>
       </body>
     </html>
   );
