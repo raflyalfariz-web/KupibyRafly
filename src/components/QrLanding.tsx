@@ -73,10 +73,6 @@ export function QrLanding() {
       <h1 className="mt-5 text-center font-display text-[26px] font-semibold leading-[31px] tracking-[-0.015em] text-ink-strong">
         {product.name}
       </h1>
-      <p className="mt-2 text-center text-[15px] leading-[22px] text-muted">
-        Ditakar manual, dicicipi dulu. Manisnya pas — nggak berlebihan.
-      </p>
-
       {/* --- size: a real radio group, so it works by keyboard too --- */}
       <fieldset className="mt-6">
         <legend className="sr-only">Pilih ukuran</legend>
@@ -132,10 +128,6 @@ export function QrLanding() {
         <OrderIcon size={22} aria-hidden="true" />
         Pesan {size.size}
       </a>
-
-      <p className="mt-3 text-center text-[13px] leading-[18px] text-muted">
-        Dibuat setelah kamu pesan. Paling lambat sehari sebelum diantar.
-      </p>
 
       {/* --- what the QR should answer --- */}
       <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-3 border-t-2 border-line pt-5">

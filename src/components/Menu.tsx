@@ -1,4 +1,4 @@
-import { productFacts, products, type Product } from "@/data/products";
+import { madeToOrder, productFacts, products, type Product } from "@/data/products";
 import { buildOrderLink } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink, OrderIcon } from "@/components/ui/Button";
@@ -31,7 +31,7 @@ export function Menu() {
 
         <Reveal className="mt-10 grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">
           <BatchInfo
-            rows={productFacts.map((fact, i) => ({
+            rows={[...productFacts, madeToOrder].map((fact, i) => ({
               icon: [<Coffee key="c" size={16} />, <MapPin key="m" size={16} />, <Sun key="s" size={16} />, <Clock key="t" size={16} />][i],
               label: fact.label,
               value: fact.value,

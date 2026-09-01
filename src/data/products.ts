@@ -64,7 +64,7 @@ export const orderOptions = products.flatMap((p) =>
 export const deliveryOptions = ["Hari ini", "Besok"] as const;
 
 /**
- * What the QR on the bottle answers first.
+ * What the QR on the bottle answers first — the bean facts.
  *
  * No batch code or brew date: the brief moves KUPI to made-to-order with at
  * most a day between order and delivery, so a batch stamp would describe a
@@ -74,5 +74,7 @@ export const productFacts = [
   { label: "Biji", value: "100% Arabica" },
   { label: "Origin", value: "Sumatera × Jawa Barat" },
   { label: "Sangrai", value: "Medium-Dark" },
-  { label: "Dibuat", value: "Setelah kamu pesan" },
 ];
+
+/** Shown in the menu block on the main site, but not on the QR page. */
+export const madeToOrder = { label: "Dibuat", value: "Setelah kamu pesan" };
