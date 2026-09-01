@@ -8,9 +8,11 @@ export function HeroCopy() {
     <div>
       <p className="eyebrow text-amber-deep">{heroCopy.kicker}</p>
 
-      <h1 className="display-xl mt-4 text-ink-strong md:text-[clamp(2.75rem,6vw,4.5rem)] md:leading-[1.02]">
+      <h1 className="display-xl mt-4 text-ink-strong md:text-[clamp(2.5rem,5vw,3.75rem)] md:leading-[1.03]">
         {heroCopy.title}
-        <span className="block text-ink">{heroCopy.titleAccent}</span>
+        <span className="mt-2 block font-display text-[24px] font-medium leading-[29px] text-ink md:text-[clamp(1.5rem,2.3vw,2rem)] md:leading-[1.18]">
+          {heroCopy.titleAccent}
+        </span>
       </h1>
 
       <p className="mt-5 max-w-[42ch] text-ink">{heroCopy.lede}</p>

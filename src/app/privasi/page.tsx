@@ -26,7 +26,7 @@ export default function PrivasiPage() {
         {
           heading: "Data yang diterima lewat WhatsApp",
           body:
-            "Kalau kamu memesan, pesan dan nomor kamu tersimpan di aplikasi WhatsApp milik penjual, dan tunduk pada kebijakan privasi WhatsApp. Data itu dipakai hanya untuk memproses pesanan minggu berjalan.",
+            "Kalau kamu memesan, pesan dan nomor kamu tersimpan di aplikasi WhatsApp milik penjual, dan tunduk pada kebijakan privasi WhatsApp. Data itu dipakai hanya untuk memproses pesananmu.",
         },
         {
           heading: "Pertanyaan",

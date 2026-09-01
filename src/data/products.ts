@@ -1,11 +1,14 @@
 /**
  * Menu data, shaped to the design system's ProductCard
- * (project/components/commerce/ProductCard.jsx): tags, name, blurb, and one
- * price row per size.
+ * (project/components/commerce/ProductCard.jsx).
  *
- * NOTE: only "Es KUPI Gula Aren" and its 85/10/5 ratio came from the brand
- * owner. Sizes follow the bundle (500ml and 1L); prices, tasting notes and
- * bean origins are placeholders — the bundle says so of its own mocks too.
+ * Sourced from kupi-brand-brief.md (1 Sep 2026). KUPI sells one SKU in three
+ * sizes — the earlier "Es KUPI Susu" and "KUPI Hitam Dingin" cards were
+ * invented and are gone.
+ *
+ * Still open in the brief, flagged rather than guessed:
+ * - 500 ml positioning ("Harian") is the brief's own placeholder suggestion.
+ * - Whether Rp95.000 at 1 L is meant to carry a small implicit discount.
  */
 
 export type ProductSize = {
@@ -34,37 +37,14 @@ export const products: Product[] = [
     id: "gula-aren",
     name: "Es KUPI Gula Aren",
     blurb:
-      "Takarannya tetap: 85% susu, 10% espresso, 5% gula aren. Manisnya dari aren asli, bukan sirup.",
-    tags: [
-      { label: "Signature", tone: "amber" },
-      { label: "Ready", tone: "success" },
-    ],
-    sizes: [
-      { size: "500 ml", price: 22000 },
-      { size: "1 L", price: 40000, note: "Cukup buat berdua." },
-    ],
-    swatch: "#c79a6b",
-  },
-  {
-    id: "kupi-susu",
-    name: "Es KUPI Susu",
-    blurb:
-      "Espresso dan susu saja. Gulanya bisa kamu atur — bilang saja pas pesan.",
+      "Kopi susu gula aren asli. Ditakar manual, dicicipi dulu sebelum dikemas — manisnya pas, nggak berlebihan.",
     tags: [{ label: "Ready", tone: "success" }],
     sizes: [
-      { size: "500 ml", price: 20000 },
-      { size: "1 L", price: 36000 },
+      { size: "250 ml", price: 27000, note: "Buat yang mau nyobain." },
+      { size: "500 ml", price: 50000, note: "Buat rutinitas sehari-hari." },
+      { size: "1 L", price: 95000, note: "Buat yang udah ketagihan." },
     ],
-    swatch: "#d6b590",
-  },
-  {
-    id: "kupi-hitam",
-    name: "KUPI Hitam Dingin",
-    blurb:
-      "Tanpa susu, tanpa gula. Diseduh panjang lalu didinginkan semalam supaya bulat, bukan pahit.",
-    tags: [{ label: "Tinggal 6", tone: "warning" }],
-    sizes: [{ size: "500 ml", price: 18000 }],
-    swatch: "#4a2b18",
+    swatch: "#c79a6b",
   },
 ];
 
@@ -77,17 +57,22 @@ export const orderOptions = products.flatMap((p) =>
   })),
 );
 
-export const pickupDays = [
-  "Jumat sore",
-  "Sabtu pagi",
-  "Sabtu sore",
-  "Minggu pagi",
-] as const;
+/**
+ * Orders run up to a day ahead, not on a weekly batch cycle — so these are
+ * the two windows that exist, not a list of pickup days.
+ */
+export const deliveryOptions = ["Hari ini", "Besok"] as const;
 
-/** What the QR on the bottle answers first. Placeholder values. */
-export const batch = {
-  code: "0824-03",
-  brewed: "24 Agu, 05.30",
-  bestBefore: "27 Agu",
-  beans: "Arabika Sumatera × Jawa Barat",
-};
+/**
+ * What the QR on the bottle answers first.
+ *
+ * No batch code or brew date: the brief moves KUPI to made-to-order with at
+ * most a day between order and delivery, so a batch stamp would describe a
+ * cycle that no longer exists. Every value here is a locked fact.
+ */
+export const productFacts = [
+  { label: "Biji", value: "100% Arabica" },
+  { label: "Origin", value: "Sumatera × Jawa Barat" },
+  { label: "Sangrai", value: "Medium-Dark" },
+  { label: "Dibuat", value: "Setelah kamu pesan" },
+];

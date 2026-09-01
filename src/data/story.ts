@@ -1,8 +1,12 @@
 /**
- * Narrative content.
+ * Narrative content, sourced from kupi-brand-brief.md (1 Sep 2026).
  *
  * `stages` drives BOTH the pinned 3D storytelling and the stacked
  * reduced-motion / no-WebGL fallback, so the two never drift apart.
+ *
+ * Voice rules from the brief: concrete over abstract, vary sentence length,
+ * no superlatives, name the process rather than the promise. Rafly speaks as
+ * "aku", never "kami".
  */
 
 export type Stage = {
@@ -15,12 +19,13 @@ export type Stage = {
   facts?: { label: string; value: string }[];
 };
 
+/** Headline and support are the brief's approved website hero copy. */
 export const heroCopy = {
-  kicker: "Small-batch · Tangerang",
-  title: "Es KUPI",
-  titleAccent: "Gula Aren",
+  kicker: "Dari dapur rumah · Tangerang",
+  title: "Es KUPI Gula Aren,",
+  titleAccent: "hangatnya kayak ngobrol di teras rumah",
   lede:
-    "Kopi susu gula aren yang diseduh sebotol demi sebotol di dapur rumah. Pre-order tiap minggu, dingin, dan sampai ke tangan tetangga di hari yang sama.",
+    "Diracik langsung dari dapur rumah, bukan pabrik — setiap botol KUPI adalah kopi susu gula aren asli yang manisnya pas, dibuat dengan tangan khusus buat tetangga dan teman terdekat. Bukan sekadar minuman, tapi teman santai buat siapa aja yang butuh jeda sejenak dari harinya yang panjang.",
   primaryCta: "Pesan lewat WhatsApp",
   secondaryCta: "Lihat menu",
 };
@@ -34,7 +39,7 @@ export const stages: Stage[] = [
     body:
       "Biji kopinya datang dari roastery lokal dari Banten. Perpaduan antara Arabika Sumatera dan Jawa Barat memberikan rasa kopi susu yang smooth, wangi, dan balance. Hasil roasting Medium-Dark memberikan rasa yang Bold walaupun telah dicampur susu dan gula aren. Tidak ada gudang, tidak ada rantai pasok panjang. Hanya satu meja dapur di Tangerang.",
     facts: [
-      { label: "Biji", value: "100% Arabika" },
+      { label: "Biji", value: "100% Arabica" },
       { label: "Origin", value: "Sumatera × Jawa Barat" },
       { label: "Sangrai", value: "Medium-Dark" },
     ],
@@ -43,9 +48,9 @@ export const stages: Stage[] = [
     id: "racikan",
     index: "02",
     kicker: "Racikan",
-    title: "Delapan puluh lima. Sepuluh. Lima.",
+    title: "Ditakar manual, dicicipi dulu",
     body:
-      "Takarannya tidak pernah diubah: 85% susu, 10% espresso, 5% gula aren. Espresso ditarik pendek supaya rasanya tetap bold walau susunya banyak, arennya dituang terakhir supaya lapisannya kelihatan sebelum diaduk.",
+      "Takarannya tidak pernah diubah: 85% susu, 10% espresso, 5% gula aren. Espresso ditarik pendek supaya rasanya tetap bold walau susunya banyak, arennya dituang terakhir supaya lapisannya kelihatan sebelum diaduk. Tiap botol dicicipi dulu sebelum ditutup.",
     facts: [
       { label: "Susu", value: "85%" },
       { label: "Espresso", value: "10%" },
@@ -60,37 +65,38 @@ export type Step = {
   body: string;
 };
 
+/** Made to order, at most a day ahead — not a weekly batch cycle. */
 export const process: Step[] = [
   {
     n: "01",
-    title: "Pre-order dibuka Senin",
+    title: "Chat dulu lewat WhatsApp",
     body:
-      "Daftar menu minggu itu dibagikan lewat WhatsApp. Kamu tinggal balas dengan jumlah dan hari ambil.",
+      "Bilang ukurannya dan mau diantar kapan. Paling lambat sehari sebelumnya, jadi nggak perlu nunggu jadwal mingguan.",
   },
   {
     n: "02",
-    title: "Pesanan ditutup Kamis malam",
+    title: "Diseduh setelah pesananmu masuk",
     body:
-      "Jumlah botol dihitung persis. Biji digiling sesuai kebutuhan, jadi tidak ada yang terbuang.",
+      "Espresso ditarik satu per satu, arennya dituang, lalu ditakar manual dan dicicipi dulu.",
   },
   {
     n: "03",
-    title: "Diseduh Jumat & Sabtu pagi",
+    title: "Dibotolkan, langsung dingin",
     body:
-      "Espresso ditarik satu per satu, aren dituang, lalu dibotolkan dan langsung masuk kulkas.",
+      "Begitu diaduk, kopinya masuk botol, ditutup rapat, dan langsung masuk kulkas. Tidak ada stok menginap.",
   },
   {
     n: "04",
-    title: "Diambil atau diantar",
+    title: "Diantar atau kamu ambil",
     body:
-      "Ambil sendiri di rumah, atau diantar untuk area sekitar. Botol kaca bisa dikembalikan minggu depan.",
+      "Diantar untuk area sekitar Tangerang, atau ambil sendiri di rumah. Sampai masih dingin.",
   },
 ];
 
 export type Feature = {
   title: string;
   body: string;
-  /** Key into the icon map in components/ui/FeatureIcon.tsx */
+  /** Key into the icon map in components/Features.tsx */
   icon: "drop" | "leaf" | "clock" | "bottle";
 };
 
@@ -99,24 +105,24 @@ export const features: Feature[] = [
     icon: "drop",
     title: "Gula aren asli",
     body:
-      "Dimasak jadi sirup sendiri tiap minggu. Bukan sirup pabrikan, bukan gula cair perisa.",
-  },
-  {
-    icon: "clock",
-    title: "Diseduh hari itu",
-    body:
-      "Tidak ada botol yang menginap lebih dari sehari. Yang keluar dari kulkas hanya pesanan minggu ini.",
+      "Bukan sirup pabrikan, bukan gula cair perisa. Manisnya pas — nggak berlebihan.",
   },
   {
     icon: "leaf",
-    title: "Small-batch, nol sisa",
+    title: "Ditakar manual",
     body:
-      "Karena semuanya pre-order, jumlah biji dan susu dihitung persis. Tidak ada yang dibuang di akhir hari.",
+      "Tiap botol ditakar dengan tangan dan dicicipi dulu sebelum dikemas. Rasanya konsisten, tapi tetap ada sentuhan personal.",
   },
   {
     icon: "bottle",
-    title: "Botol kembali",
+    title: "Dari dapur rumah, bukan pabrik",
     body:
-      "Kembalikan botolnya minggu depan dan dapat potongan. Lebih murah buat kamu, lebih sedikit sampah.",
+      "Satu orang yang menyeduh, membotolkan, dan membalas pesanmu. Tidak ada gerai, tidak ada rantai pasok panjang.",
+  },
+  {
+    icon: "clock",
+    title: "Dibuat setelah kamu pesan",
+    body:
+      "Tidak ada stok yang menginap berhari-hari. Pesan paling lambat sehari sebelumnya, diseduh khusus untuk namamu.",
   },
 ];

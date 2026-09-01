@@ -3,7 +3,7 @@
 import { useId, useState, type FormEvent, type ReactNode } from "react";
 import { Info } from "lucide-react";
 
-import { orderOptions, pickupDays } from "@/data/products";
+import { deliveryOptions, orderOptions } from "@/data/products";
 import { buildOrderLink, site } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink, OrderIcon } from "@/components/ui/Button";
@@ -46,9 +46,9 @@ export function OrderCta() {
           <SectionHeading
             id="pesan-heading"
             eyebrow="Pesan"
-            sub="Pesanan ditutup Kamis malam, diseduh Jumat dan Sabtu pagi."
+            sub="Diseduh setelah pesananmu masuk. Paling lambat sehari sebelum diantar."
           >
-            Pre-order minggu ini masih buka
+            Pesan sekarang, diantar besok
           </SectionHeading>
 
           <p className="mt-6 max-w-[42ch] text-ink">
@@ -65,8 +65,8 @@ export function OrderCta() {
 
           <dl className="mt-10 grid max-w-md grid-cols-2 gap-y-5 border-t-2 border-line pt-7">
             {[
-              ["Tutup pesanan", "Kamis, 21.00"],
-              ["Hari seduh", "Jumat & Sabtu"],
+              ["Pesan paling lambat", "1 hari sebelumnya"],
+              ["Diseduh", "Setelah dipesan"],
               ["Area antar", site.city],
               ["Minimum", "1 botol"],
             ].map(([label, value]) => (
@@ -128,15 +128,15 @@ export function OrderCta() {
                 </Field>
               </div>
 
-              <Field label="Ambil / antar" htmlFor={dayId}>
+              <Field label="Diantar" htmlFor={dayId}>
                 <select
                   id={dayId}
                   name="day"
                   required
-                  defaultValue={pickupDays[1]}
+                  defaultValue={deliveryOptions[1]}
                   className={inputClass}
                 >
-                  {pickupDays.map((day) => (
+                  {deliveryOptions.map((day) => (
                     <option key={day} value={day}>
                       {day}
                     </option>

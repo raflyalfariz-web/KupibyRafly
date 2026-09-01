@@ -1,9 +1,9 @@
-import { batch, products, type Product } from "@/data/products";
+import { productFacts, products, type Product } from "@/data/products";
 import { buildOrderLink } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink, OrderIcon } from "@/components/ui/Button";
 import { BatchInfo, PriceDisplay, SectionHeading, Tag } from "@/components/ui/ds";
-import { Coffee, Hash, Snowflake, Sun } from "lucide-react";
+import { Clock, Coffee, MapPin, Sun } from "lucide-react";
 
 /**
  * The cream-100 menu block in the design system's section rhythm:
@@ -16,14 +16,14 @@ export function Menu() {
         <Reveal>
           <SectionHeading
             id="menu-heading"
-            eyebrow="Menu minggu ini"
-            sub="Diseduh subuh, siap dari jam 07.00. Daftarnya pendek supaya tiap botol bisa dikerjakan benar."
+            eyebrow="Menu"
+            sub="Satu resep, tiga ukuran. Diseduh setelah pesananmu masuk, bukan disetok."
           >
-            Tiga kopi, tidak lebih
+            Satu kopi, tiga ukuran
           </SectionHeading>
         </Reveal>
 
-        <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-4 sm:max-w-md">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -31,16 +31,15 @@ export function Menu() {
 
         <Reveal className="mt-10 grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">
           <BatchInfo
-            rows={[
-              { icon: <Hash size={16} />, label: "Batch", value: batch.code },
-              { icon: <Sun size={16} />, label: "Diseduh", value: batch.brewed },
-              { icon: <Snowflake size={16} />, label: "Baik sebelum", value: batch.bestBefore },
-              { icon: <Coffee size={16} />, label: "Biji", value: batch.beans },
-            ]}
+            rows={productFacts.map((fact, i) => ({
+              icon: [<Coffee key="c" size={16} />, <MapPin key="m" size={16} />, <Sun key="s" size={16} />, <Clock key="t" size={16} />][i],
+              label: fact.label,
+              value: fact.value,
+            }))}
           />
           <p className="text-[13px] leading-[18px] text-muted">
-            Botolnya bisa kamu kembalikan minggu depan, dapat potongan Rp2.000. Harga
-            sudah termasuk botol.
+            Harga sudah termasuk botol. Pesan paling lambat sehari sebelum kamu mau
+            diantar — nggak ada jadwal seduh mingguan.
           </p>
         </Reveal>
       </div>

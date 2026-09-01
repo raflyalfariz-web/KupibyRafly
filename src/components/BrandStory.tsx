@@ -20,15 +20,15 @@ export function BrandStory() {
             </SectionHeading>
 
             <p className="mt-6 max-w-[46ch] text-ink">
-              Semuanya pre-order supaya tiap botol punya nama sebelum diseduh. Tidak ada
-              satu pun yang berakhir di tempat sampah.
+              Semuanya dibuat setelah dipesan, jadi tiap botol sudah punya nama sebelum
+              diseduh. Tidak ada satu pun yang berakhir di tempat sampah.
             </p>
 
             <figure className="mt-8 max-w-md">
               <div className="relative aspect-[4/5] overflow-hidden rounded-lg border-2 border-line bg-sunken">
                 <Image
                   src="/brand/kupi-bottle.jpg"
-                  alt="Botol KUPI 500 ml dengan label krem dan kopi susu gula aren di dalamnya."
+                  alt="Botol KUPI dengan label krem dan kopi susu gula aren di dalamnya."
                   fill
                   loading="lazy"
                   sizes="(max-width: 1024px) 90vw, 28rem"
@@ -36,7 +36,7 @@ export function BrandStory() {
                 />
               </div>
               <figcaption className="mt-3 text-[13px] leading-[18px] text-muted">
-                Botol 500 ml, ditutup dan didinginkan pagi itu juga.
+                Ditutup dan didinginkan begitu selesai diseduh.
               </figcaption>
             </figure>
           </Reveal>
@@ -61,7 +61,7 @@ export function BrandStory() {
         <Reveal className="mt-16 flex flex-col items-center gap-4 text-center">
           <ChevronRule />
           <p className="display-l mt-2 max-w-[24ch] text-ink-strong">
-            &ldquo;Kalau kopinya enak, tetangga bakal balik lagi minggu depan.&rdquo;
+            &ldquo;Kalau kopinya enak, tetangga bakal pesan lagi.&rdquo;
           </p>
           <p className="eyebrow text-muted">Rafly — {site.region}</p>
         </Reveal>

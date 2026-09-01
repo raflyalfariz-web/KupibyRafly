@@ -17,9 +17,9 @@ export const site = {
   city: "Tangerang",
   region: "Tangerang, Banten",
   country: "Indonesia",
-  tagline: "Kopi susu gula aren, diseduh sebotol demi sebotol di dapur rumah.",
+  tagline: "Kopi susu gula aren rumahan, hangatnya kayak pulang ke rumah tetangga.",
   description:
-    "KUPI by Rafly — Es KUPI Gula Aren small-batch dari Tangerang. Diseduh di rumah, pre-order tiap minggu, diantar segar ke tetangga.",
+    "KUPI by Rafly — Es KUPI Gula Aren dari dapur rumah di Tangerang. Ditakar manual, dibuat setelah kamu pesan, diantar paling cepat hari itu juga.",
   url: "https://kupi-by-rafly.netlify.app",
 
   whatsapp: {
@@ -34,7 +34,7 @@ export const site = {
    */
   contact: {
     // TODO(owner): add a real address / maps link if you want pickup shown.
-    pickupNote: "Ambil sendiri di rumah (Tangerang) atau antar area sekitar.",
+    pickupNote: "Diantar area sekitar Tangerang, atau ambil sendiri di rumah.",
     // TODO(owner): fill in if you set up a brand mailbox.
     email: "",
   },

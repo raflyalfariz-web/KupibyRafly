@@ -95,9 +95,11 @@ render. Native scrolling is never hijacked.
 
 ## Before going live
 
-- Menu items other than *Es Kupi Gula Aren*, all prices, bean origins, and the
-  pre-order schedule are realistic **placeholders**. Only the signature drink and
-  its 45/30/25 ratio came from the brand owner.
+- Product, pricing, beans and the ordering window now come from
+  `kupi-brand-brief.md` (1 Sep 2026): one SKU in three sizes, 100% Arabica
+  Sumatera × Jawa Barat, made to order at most a day ahead.
+- Two things the brief still marks **[OPEN]**: the 500 ml positioning line, and
+  the 85/10/5 layer proportions used in the 3D scene.
 - `site.socials` ships with Instagram and TikTok empty; they are filtered out at
   render rather than linking nowhere. Fill them in and they appear.
 - `/privasi` and `/ketentuan` are labelled template text.

@@ -14,9 +14,9 @@ export default function KetentuanPage() {
       updated="Template — sesuaikan sebelum dipakai."
       sections={[
         {
-          heading: "Pre-order",
+          heading: "Cara pesan",
           body:
-            "Pesanan dibuka Senin dan ditutup Kamis pukul 21.00 WIB. Pesanan yang masuk setelah itu digeser ke minggu berikutnya. Jumlah botol terbatas mengikuti kapasitas seduh.",
+            "Pesanan lewat WhatsApp, paling lambat satu hari sebelum kamu mau diantar. Tidak ada jadwal seduh mingguan — tiap botol dibuat setelah pesananmu masuk. Jumlah botol per hari terbatas mengikuti kapasitas seduh.",
         },
         {
           heading: "Pembayaran",
@@ -26,12 +26,12 @@ export default function KetentuanPage() {
         {
           heading: "Kesegaran dan penyimpanan",
           body:
-            "Produk diseduh dan dibotolkan pada hari pengambilan. Simpan di kulkas dan habiskan dalam dua hari. Produk mengandung susu — beri tahu aku kalau kamu punya alergi.",
+            "Produk diseduh dan dibotolkan pada hari pengantaran. Simpan di kulkas dan habiskan dalam dua hari. Produk mengandung susu — beri tahu aku kalau kamu punya alergi.",
         },
         {
           heading: "Pembatalan",
           body:
-            "Pesanan bisa dibatalkan gratis sebelum penutupan Kamis malam. Setelah itu bahan sudah dihitung dan dibeli, jadi pembatalan tidak bisa diproses.",
+            "Pesanan bisa dibatalkan gratis selama kopinya belum mulai diseduh. Setelah itu bahannya sudah dipakai, jadi pembatalan tidak bisa diproses.",
         },
         {
           heading: "Botol kembali",
