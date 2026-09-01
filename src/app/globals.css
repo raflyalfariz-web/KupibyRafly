@@ -262,3 +262,50 @@ p, h1, h2, h3, h4, li, dd, dt, figcaption {
   .kupi-shake { animation: none; }
   .kupi-fade { transition-duration: 1ms; }
 }
+
+/* ------------------------------------------------------------------
+   QR landing — size cards that flip to reveal the price
+------------------------------------------------------------------ */
+.kupi-flip {
+  perspective: 700px;
+}
+
+.kupi-flip-inner {
+  position: relative;
+  display: block;
+  height: 64px;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.kupi-flip-inner[data-flipped="true"] {
+  transform: rotateY(180deg);
+}
+
+.kupi-flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: var(--border-solid) solid var(--border-default);
+  background-color: var(--surface-card);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.kupi-flip-back {
+  transform: rotateY(180deg);
+  border-color: var(--brown-700);
+  background-color: var(--surface-sunken);
+}
+
+.kupi-flip:has(input:focus-visible) .kupi-flip-face {
+  outline: 2px solid var(--brown-700);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kupi-flip-inner { transition: none; }
+}

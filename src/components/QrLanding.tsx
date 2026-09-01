@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 
-import { orderOptions, productFacts, products } from "@/data/products";
+import { orderOptions, products } from "@/data/products";
 import { buildOrderLink, site } from "@/lib/site";
 import { rupiah } from "@/components/ui/ds";
 import { OrderIcon } from "@/components/ui/Button";
@@ -12,20 +12,20 @@ import { OrderIcon } from "@/components/ui/Button";
  * The page a scanned bottle opens.
  *
  * Its whole job is to turn a bottle someone was handed into a repeat order, so
- * it is one screen: mark, bottle, price, button. Everything is sized for the
+ * it is one screen: mark, bottle, size, button. Everything is sized for the
  * real moment it happens in — one hand, outdoors, bright sun.
  */
 export function QrLanding() {
   const product = products[0];
-  const [sizeIndex, setSizeIndex] = useState(1); // 500 ml — the middle size
+  /** null until a size is picked, so no price is showing on arrival. */
+  const [picked, setPicked] = useState<number | null>(null);
   const [mixed, setMixed] = useState(false);
   const [shakeCount, setShakeCount] = useState(0);
   const [shaking, setShaking] = useState(false);
   const groupName = useId();
 
-  const size = product.sizes[sizeIndex];
   const orderHref = buildOrderLink({
-    item: orderOptions[sizeIndex].value,
+    item: picked === null ? product.name : orderOptions[picked].value,
     qty: 1,
   });
 
@@ -47,7 +47,7 @@ export function QrLanding() {
       />
 
       {/* --- the bottle: tap to stir, tap again to let it settle --- */}
-      <div className="mt-6 flex flex-col items-center">
+      <div className="mt-6 flex justify-center">
         <button
           type="button"
           onClick={shake}
@@ -64,56 +64,50 @@ export function QrLanding() {
             onSettled={() => setShaking(false)}
           />
         </button>
-        <p aria-hidden="true" className="mt-1 text-[13px] leading-[18px] text-muted">
-          {mixed ? "Sudah tercampur — ketuk lagi" : "Ketuk botolnya buat ngocok"}
-        </p>
       </div>
 
-      {/* --- product --- */}
       <h1 className="mt-5 text-center font-display text-[26px] font-semibold leading-[31px] tracking-[-0.015em] text-ink-strong">
         {product.name}
       </h1>
-      {/* --- size: a real radio group, so it works by keyboard too --- */}
+
+      {/*
+        Sizes only — the price sits on the back of each card and turns into
+        view when you pick one. Both faces stay in the DOM, so a screen reader
+        still reads "250 ml, Rp27.000" without needing the flip.
+      */}
       <fieldset className="mt-6">
         <legend className="sr-only">Pilih ukuran</legend>
         <div className="grid grid-cols-3 gap-2">
-          {product.sizes.map((s, i) => {
-            const active = i === sizeIndex;
-            return (
-              <label
-                key={s.size}
-                className={[
-                  "flex min-h-[var(--tap-min)] cursor-pointer flex-col items-center justify-center gap-0.5",
-                  "rounded-md border-2 px-2 py-3 text-center transition-colors duration-[120ms] ease-standard",
-                  "has-[:focus-visible]:outline has-[:focus-visible]:outline-2",
-                  "has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink",
-                  active
-                    ? "border-ink bg-sunken"
-                    : "border-line bg-card hover:border-ink/40",
-                ].join(" ")}
-              >
-                <input
-                  type="radio"
-                  name={groupName}
-                  value={s.size}
-                  checked={active}
-                  onChange={() => setSizeIndex(i)}
-                  className="sr-only"
-                />
-                <span className="eyebrow text-ink">{s.size}</span>
-                <span className="font-display text-[19px] font-semibold tabular-nums text-ink">
-                  {rupiah(s.price)}
+          {product.sizes.map((s, i) => (
+            <label key={s.size} className="kupi-flip block cursor-pointer">
+              <input
+                type="radio"
+                name={groupName}
+                value={s.size}
+                checked={picked === i}
+                onChange={() => setPicked(i)}
+                // Without this the browser restores the previous visit's pick
+                // on reload, so a price would already be showing on arrival.
+                autoComplete="off"
+                className="sr-only"
+              />
+              <span className="kupi-flip-inner" data-flipped={picked === i}>
+                <span className="kupi-flip-face">
+                  <span className="font-display text-[17px] font-semibold text-ink">
+                    {s.size}
+                  </span>
                 </span>
-              </label>
-            );
-          })}
+                <span className="kupi-flip-face kupi-flip-back">
+                  <span className="font-display text-[18px] font-semibold tabular-nums text-ink">
+                    {rupiah(s.price)}
+                  </span>
+                </span>
+              </span>
+            </label>
+          ))}
         </div>
-        <p className="mt-2 min-h-[18px] text-center text-[13px] leading-[18px] text-muted">
-          {size.note}
-        </p>
       </fieldset>
 
-      {/* --- the one action --- */}
       <a
         href={orderHref}
         target="_blank"
@@ -126,20 +120,8 @@ export function QrLanding() {
                    motion-reduce:transition-none motion-reduce:active:translate-y-0"
       >
         <OrderIcon size={22} aria-hidden="true" />
-        Pesan {size.size}
+        Pesan Sekarang
       </a>
-
-      {/* --- what the QR should answer --- */}
-      <dl className="mt-8 grid grid-cols-2 gap-x-4 gap-y-3 border-t-2 border-line pt-5">
-        {productFacts.map((fact) => (
-          <div key={fact.label}>
-            <dt className="eyebrow text-muted">{fact.label}</dt>
-            <dd className="mt-1 font-display text-[15px] font-medium text-ink">
-              {fact.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
 
       <footer className="mt-9 flex items-center justify-between gap-4 text-[13px] leading-[18px] text-muted">
         <p>
