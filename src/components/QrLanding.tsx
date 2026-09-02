@@ -19,21 +19,12 @@ export function QrLanding() {
   const product = products[0];
   /** null until a size is picked, so no price is showing on arrival. */
   const [picked, setPicked] = useState<number | null>(null);
-  const [mixed, setMixed] = useState(false);
-  const [shakeCount, setShakeCount] = useState(0);
-  const [shaking, setShaking] = useState(false);
   const groupName = useId();
 
   const orderHref = buildOrderLink({
     item: picked === null ? product.name : orderOptions[picked].value,
     qty: 1,
   });
-
-  function shake() {
-    setMixed((m) => !m);
-    setShakeCount((c) => c + 1);
-    setShaking(true);
-  }
 
   return (
     <main className="mx-auto flex w-full max-w-[26rem] flex-col px-5 pb-10 pt-9">
@@ -46,25 +37,8 @@ export function QrLanding() {
         className="mx-auto h-auto w-[150px]"
       />
 
-      {/* --- the bottle: tap to stir, tap again to let it settle --- */}
-      <div className="mt-6 flex justify-center">
-        <button
-          type="button"
-          onClick={shake}
-          aria-pressed={mixed}
-          className="rounded-lg p-2 [-webkit-tap-highlight-color:transparent]"
-        >
-          <span className="sr-only">
-            {mixed ? "Diamkan lagi supaya lapisannya kelihatan" : "Kocok botolnya"}
-          </span>
-          <Bottle
-            mixed={mixed}
-            shaking={shaking}
-            shakeKey={shakeCount}
-            onSettled={() => setShaking(false)}
-          />
-        </button>
-      </div>
+      {/* --- the bottle, photographed at each size --- */}
+      <BottleShot picked={picked} />
 
       <h1 className="mt-5 text-center font-display text-[26px] font-semibold leading-[31px] tracking-[-0.015em] text-ink-strong">
         {product.name}
@@ -145,85 +119,48 @@ export function QrLanding() {
 /* ------------------------------------------------------------------------ */
 
 /**
- * Layer heights are display proportions, matching the 3D scene on the main
- * site. By volume the drink is 85 / 10 / 5, which makes the palm sugar a
- * sliver you cannot see; the real ratio is stated in words on the main site.
+ * The three bottles, cross-faded as the size changes.
+ *
+ * One shared crop across all three photographs, so the 1 L really is wider in
+ * frame than the 250 ml — the relative widths are the photographs', not a
+ * transform. Heights are nudged on top of that so a bigger size also stands a
+ * little taller.
  */
-const LIQUID_TOP = 19;
-const LIQUID_HEIGHT = 203;
-const LAYERS = [
-  { id: "susu", from: 0, to: 0.5, fill: "#f0e2ca" },
-  { id: "espresso", from: 0.5, to: 0.7, fill: "#2a1608" },
-  { id: "aren", from: 0.7, to: 1, fill: "#9c5b10" },
+const SHOTS = [
+  { src: "/brand/bottle-250.webp", alt: "Botol KUPI 250 ml", scale: 0.86 },
+  { src: "/brand/bottle-500.webp", alt: "Botol KUPI 500 ml", scale: 0.93 },
+  { src: "/brand/bottle-1000.webp", alt: "Botol KUPI 1 L", scale: 1 },
 ];
 
-const BOTTLE_PATH =
-  "M42 19 L58 19 L58 34 C58 42 86 42 86 50 L86 208 Q86 222 72 222 L28 222 " +
-  "Q14 222 14 208 L14 50 C14 42 42 42 42 34 L42 19 Z";
-
-function Bottle({
-  mixed,
-  shaking,
-  shakeKey,
-  onSettled,
-}: {
-  mixed: boolean;
-  shaking: boolean;
-  shakeKey: number;
-  onSettled: () => void;
-}) {
+function BottleShot({ picked }: { picked: number | null }) {
+  // Before a size is picked, show the 500 ml — the middle of the range.
+  const shown = picked ?? 1;
   return (
-    <svg
-      viewBox="0 0 100 230"
-      className="block h-auto w-[104px]"
-      fill="none"
-      aria-hidden="true"
-    >
-      <defs>
-        <clipPath id="kupi-bottle-inner">
-          <path d={BOTTLE_PATH} />
-        </clipPath>
-      </defs>
-
-      <g
-        key={shakeKey}
-        clipPath="url(#kupi-bottle-inner)"
-        className={shaking ? "kupi-shake" : undefined}
-        onAnimationEnd={onSettled}
-        style={{ transformOrigin: "50px 140px" }}
-      >
-        {LAYERS.map((layer) => (
-          <rect
-            key={layer.id}
-            x="10"
-            y={LIQUID_TOP + LIQUID_HEIGHT * layer.from}
-            width="80"
-            height={LIQUID_HEIGHT * (layer.to - layer.from)}
-            fill={layer.fill}
-            className="kupi-fade"
-            opacity={mixed ? 0 : 1}
+    <div className="mt-5 flex justify-center">
+      {/*
+        The photographs keep their own warm backdrop. It cannot be keyed out —
+        on the 1 L the label cream and the backdrop are the same value
+        ([230,211,181] against [230,206,180]) — and feathering it left a
+        visible box, so it is framed as a product tile instead.
+      */}
+      <div className="kupi-shot relative h-[290px] w-[168px] overflow-hidden rounded-lg">
+        {SHOTS.map((shot, i) => (
+          <Image
+            key={shot.src}
+            src={shot.src}
+            alt={i === shown ? shot.alt : ""}
+            fill
+            sizes="150px"
+            priority={i === 1}
+            aria-hidden={i === shown ? undefined : true}
+            className="object-contain"
+            style={{
+              opacity: i === shown ? 1 : 0,
+              transform: `scale(${shot.scale})`,
+            }}
           />
         ))}
-        <rect
-          x="10"
-          y={LIQUID_TOP}
-          width="80"
-          height={LIQUID_HEIGHT}
-          fill="#c1915f"
-          className="kupi-fade"
-          opacity={mixed ? 1 : 0}
-        />
-      </g>
-
-      <path d={BOTTLE_PATH} stroke="var(--brown-700)" strokeWidth="2.6" />
-      <rect x="20" y="58" width="5" height="132" rx="2.5" fill="#fff" opacity="0.2" />
-
-      {/* ribbed screw cap */}
-      <rect x="38" y="4" width="24" height="15" rx="3" fill="#c7cbce" />
-      <rect x="38" y="9" width="24" height="1.6" fill="#9ea3a8" />
-      <rect x="38" y="12.5" width="24" height="1.6" fill="#9ea3a8" />
-      <rect x="41" y="4" width="3" height="15" fill="#fff" opacity="0.4" />
-      <rect x="38" y="4" width="24" height="15" rx="3" stroke="#8d9297" strokeWidth="1" />
-    </svg>
+      </div>
+    </div>
   );
 }
